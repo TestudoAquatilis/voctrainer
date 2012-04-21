@@ -1,3 +1,4 @@
+#coding=utf8
 import pygtk
 import gtk
 import pango
@@ -14,7 +15,8 @@ class TabQuery:
 		self.entryKana.set_text('')
 		self.entryKanji.set_text('')
 		self.entryTyp.set_text(self.nextVoc['Typ'])
-		self.entryInfo.set_text('')
+		#self.entryInfo.set_text('')
+		self.entryInfo.get_buffer().set_text('')
 
 	def solve(self):
 		if len(self.nextVoc.keys()) < 5:
@@ -24,7 +26,8 @@ class TabQuery:
 		self.entryKana.set_text(self.nextVoc['Kana'])
 		self.entryKanji.set_text(self.nextVoc['Kanji'])
 		self.entryTyp.set_text(self.nextVoc['Typ'])
-		self.entryInfo.set_text(self.nextVoc['Info'])
+		#self.entryInfo.set_text(self.nextVoc['Info'])
+		self.entryInfo.get_buffer().set_text(self.nextVoc['Info'])
 
 	def known(self):
 		if len(self.nextVoc.keys()) < 6:
@@ -67,13 +70,15 @@ class TabQuery:
 		# Buttons
 		self.buttonKnown    = gtk.Button('Gewusst')
 		self.buttonNotKnown = gtk.Button('Nicht gewusst')
-		self.buttonSolve    = gtk.Button('Loesen')
-		self.buttonNext     = gtk.Button('Naechste')
+		self.buttonSolve    = gtk.Button('Lösen')
+		self.buttonNext     = gtk.Button('Nächste')
 
-		self.boxButtons.pack_start(self.buttonNext, True, True, 0)
-		self.boxButtons.pack_start(self.buttonSolve, True, True, 0)
-		self.boxButtons.pack_start(self.buttonKnown, True, True, 0)
-		self.boxButtons.pack_start(self.buttonNotKnown, True, True, 0)
+		buttonExpand = False
+		buttonFill   = False
+		self.boxButtons.pack_start(self.buttonNext, buttonExpand, buttonFill, 0)
+		self.boxButtons.pack_start(self.buttonSolve, buttonExpand, buttonFill, 0)
+		self.boxButtons.pack_start(self.buttonKnown, buttonExpand, buttonFill, 0)
+		self.boxButtons.pack_start(self.buttonNotKnown, buttonExpand, buttonFill, 0)
 
 
 		# Entries
@@ -81,7 +86,7 @@ class TabQuery:
 		self.entryKana    = gtk.Entry()
 		self.entryKanji   = gtk.Entry()
 		self.entryTyp     = gtk.Entry()
-		self.entryInfo    = gtk.Entry()
+		self.entryInfo    = gtk.TextView()
 
 		self.entryDeutsch.modify_font(self.fontMedium)
 		self.entryKana.modify_font(self.fontMedium)
@@ -95,21 +100,26 @@ class TabQuery:
 		self.labelTyp     = gtk.Label('Typ:')
 		self.labelInfo    = gtk.Label('Info:')
 
-		self.table.attach(self.labelDeutsch, 0, 1, 0, 1)
-		self.table.attach(self.labelKana,    0, 1, 1, 2)
-		self.table.attach(self.labelKanji,   0, 1, 2, 3)
-		self.table.attach(self.labelTyp,     0, 1, 3, 4)
-		self.table.attach(self.labelInfo,    0, 1, 4, 5)
+		labelXOpt = 0
+		labelYOpt = 0
+		self.table.attach(self.labelDeutsch, 0, 1, 0, 1, labelXOpt, labelYOpt)
+		self.table.attach(self.labelKana,    0, 1, 1, 2, labelXOpt, labelYOpt)
+		self.table.attach(self.labelKanji,   0, 1, 2, 3, labelXOpt, labelYOpt)
+		self.table.attach(self.labelTyp,     0, 1, 3, 4, labelXOpt, labelYOpt)
+		self.table.attach(self.labelInfo,    0, 1, 4, 5, labelXOpt, labelYOpt)
 
-		self.table.attach(self.entryDeutsch, 1, 2, 0, 1)
-		self.table.attach(self.entryKana,    1, 2, 1, 2)
-		self.table.attach(self.entryKanji,   1, 2, 2, 3)
-		self.table.attach(self.entryTyp,     1, 2, 3, 4)
-		self.table.attach(self.entryInfo,    1, 2, 4, 5)
+		entryXOpt    = gtk.EXPAND|gtk.FILL
+		entryYOpt    = gtk.FILL
+		entryYOptExp = gtk.EXPAND|gtk.FILL
+		self.table.attach(self.entryDeutsch, 1, 2, 0, 1, entryXOpt, entryYOpt)
+		self.table.attach(self.entryKana,    1, 2, 1, 2, entryXOpt, entryYOpt)
+		self.table.attach(self.entryKanji,   1, 2, 2, 3, entryXOpt, entryYOpt)
+		self.table.attach(self.entryTyp,     1, 2, 3, 4, entryXOpt, entryYOpt)
+		self.table.attach(self.entryInfo,    1, 2, 4, 5, entryXOpt, entryYOptExp)
 
 		# Packing
 		self.boxOuter.pack_start(self.table, True, True, 0)
-		self.boxOuter.pack_start(self.boxButtons, True, True, 0)
+		self.boxOuter.pack_start(self.boxButtons, False, False, 0)
 
 
 		# Show

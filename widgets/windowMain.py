@@ -1,3 +1,4 @@
+#coding=utf8
 import pygtk
 import gtk
 
@@ -14,7 +15,7 @@ class WindowMain:
 		self.notebook = gtk.Notebook()
 		
 		self.tabAdd = widgets.tabAdd.TabAdd(db)
-		self.notebook.append_page(self.tabAdd.getWidget(), gtk.Label('Hinzufuegen'))
+		self.notebook.append_page(self.tabAdd.getWidget(), gtk.Label('Hinzufügen'))
 
 		self.tabQuery = widgets.tabQuery.TabQuery(db)
 		self.notebook.append_page(self.tabQuery.getWidget(), gtk.Label('Abfragen'))
