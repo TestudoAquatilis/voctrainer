@@ -4,11 +4,11 @@ import gtk
 class TabAdd:
 
 	def handlerInsert(self, widget, data=None):
-		deutsch = self.entryDeutsch.get_text()
-		kana    = self.entryKana.get_text()
-		kanji   = self.entryKanji.get_text()
-		typ     = self.entryTyp.get_text()
-		info    = self.entryInfo.get_text()
+		deutsch = self.entryDeutsch.get_text().decode('utf-8')
+		kana    = self.entryKana.get_text().decode('utf-8')
+		kanji   = self.entryKanji.get_text().decode('utf-8')
+		typ     = self.entryTyp.get_text().decode('utf-8')
+		info    = self.entryInfo.get_text().decode('utf-8')
 
 		if len(deutsch) == 0 or len(kana) == 0:
 			return
@@ -45,13 +45,11 @@ class TabAdd:
 		self.table.attach(self.entryInfo,    1, 2, 4, 5)
 
 		self.buttonInsert = gtk.Button('Einfuegen')
-		self.buttonTest   = gtk.Button('Test')
 
 		self.boxOuter   = gtk.VBox(False,4)
 		self.boxButtons = gtk.HBox(False,4)
 
 		self.boxButtons.pack_start(self.buttonInsert, True, True, 0)
-		self.boxButtons.pack_start(self.buttonTest, True, True, 0)
 
 		self.boxOuter.pack_start(self.table, True, True, 0)
 		self.boxOuter.pack_start(self.boxButtons, True, True, 0)
@@ -73,7 +71,6 @@ class TabAdd:
 		self.table.show()
 
 		self.buttonInsert.show()
-		self.buttonTest.show()
 
 		self.boxButtons.show()
 		self.boxOuter.show()
