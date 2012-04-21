@@ -56,7 +56,7 @@ class TabAdd:
 		self.boxOuter.pack_start(self.table, True, True, 0)
 		self.boxOuter.pack_start(self.boxButtons, True, True, 0)
 
-		self.buttonInsert.connect("clicked", self.handlerInsert)
+		self.buttonInsert.connect('clicked', self.handlerInsert)
 
 		self.entryDeutsch.show()
 		self.entryKana.show()
