@@ -1,5 +1,6 @@
 import pygtk
 import gtk
+import pango
 
 class TabQuery:
 	def getNextVoc(self):
@@ -59,6 +60,9 @@ class TabQuery:
 		self.boxButtons = gtk.VBox(False, 4)
 
 		self.table = gtk.Table(2, 5, False)
+
+		self.fontLarge  = pango.FontDescription('20')
+		self.fontMedium = pango.FontDescription('16')
 		
 		# Buttons
 		self.buttonKnown    = gtk.Button('Gewusst')
@@ -78,6 +82,12 @@ class TabQuery:
 		self.entryKanji   = gtk.Entry()
 		self.entryTyp     = gtk.Entry()
 		self.entryInfo    = gtk.Entry()
+
+		self.entryDeutsch.modify_font(self.fontMedium)
+		self.entryKana.modify_font(self.fontMedium)
+		self.entryKanji.modify_font(self.fontLarge)
+		#self.entryTyp.modify_font(self.fontLarge)
+		self.entryInfo.modify_font(self.fontMedium)
 		
 		self.labelDeutsch = gtk.Label('Deutsch:')
 		self.labelKana    = gtk.Label('Kana:')

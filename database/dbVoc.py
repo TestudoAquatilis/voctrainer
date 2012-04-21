@@ -104,12 +104,14 @@ class DBVoc:
 
 		result = {}
 
-		result['Deutsch'] = row[0]
-		result['Kana']    = row[1]
-		result['Kanji']   = row[2]
-		result['Typ']     = row[3]
-		result['Info']    = row[4]
-		result['Level']   = row[5]
+		if row:
+
+			result['Deutsch'] = row[0]
+			result['Kana']    = row[1]
+			result['Kanji']   = row[2]
+			result['Typ']     = row[3]
+			result['Info']    = row[4]
+			result['Level']   = row[5]
 
 		return result
 
