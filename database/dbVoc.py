@@ -10,6 +10,12 @@ class DBVoc:
 		self.db_connection = sqlite3.connect(path)
 		self.db_cursor     = self.db_connection.cursor()
 
+		self.db_cursor.execute("""
+			CREATE TABLE IF NOT EXISTS Vocabulary(Deutsch TEXT, Kana TEXT, Kanji TEXT, Typ TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
+			""")
+		self.db_connection.commit()
+
+
 	def create(self):
 		self.db_cursor.executescript("""
 			DROP TABLE IF EXISTS Vocabulary;

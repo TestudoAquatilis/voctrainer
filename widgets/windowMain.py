@@ -4,6 +4,7 @@ import gtk
 
 import widgets.tabAdd
 import widgets.tabQuery
+import widgets.tabDB
 
 class WindowMain:
 	def destroy(self, widget, data=None):
@@ -19,6 +20,9 @@ class WindowMain:
 
 		self.tabQuery = widgets.tabQuery.TabQuery(db)
 		self.notebook.append_page(self.tabQuery.getWidget(), gtk.Label('Abfragen'))
+
+		self.tabDB = widgets.tabDB.TabDB(db)
+		self.notebook.append_page(self.tabDB.getWidget(), gtk.Label('Datenbank'))
 
 		self.window.add(self.notebook)
 		self.window.connect('destroy',self.destroy)
