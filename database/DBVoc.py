@@ -109,9 +109,7 @@ class DBVoc:
 		row = self.db_cursor.fetchone()
 
 		result = {}
-
 		if row:
-
 			result['Deutsch'] = row[0]
 			result['Kana']    = row[1]
 			result['Kanji']   = row[2]
@@ -120,6 +118,24 @@ class DBVoc:
 			result['Level']   = row[5]
 
 		return result
+
+	def resetLevel(self):
+		self.db_cursor.execute("""
+			SELECT * FROM Vocabulary ORDER BY Timestamp;
+			""")
+
+		rows = self.db_cursor.fetchall()
+
+		if rows:
+			for row in rows:
+				timestamp = self.getTimestamp(0)
+				deutsch   = row[0]
+				kana      = row[1]
+				self.db_cursor.execute("""
+					UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
+					""", (0, timestamp, deutsch, kana))
+
+		self.db_connection.commit()
 
 	def hasVoc(self, deutsch, kana):
 		self.db_cursor.execute("""

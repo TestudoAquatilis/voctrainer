@@ -12,6 +12,9 @@ class TabDB:
 
 		if dia_res == gtk.RESPONSE_YES:
 			self.db.create()
+	
+	def handlerResetLevel(self, widget, data=None):
+		self.db.resetLevel()
 
 	def __init__(self, db, inOut):
 		self.db    = db
@@ -21,14 +24,18 @@ class TabDB:
 
 		# Buttons
 		buttonInit = gtk.Button('Initialisieren')
+		buttonResetLevel = gtk.Button('Fortschritt zurücksetzen')
 
 		buttonExpand = False
 		buttonFill   = False
 		boxButtons.pack_start(buttonInit, buttonExpand, buttonFill, 0)
+		boxButtons.pack_start(buttonResetLevel, buttonExpand, buttonFill, 0)
 
 		buttonInit.connect('clicked', self.handlerInit)
+		buttonResetLevel.connect('clicked', self.handlerResetLevel)
 
 		buttonInit.show()
+		buttonResetLevel.show()
 		boxButtons.show()
 
 		self.widget = boxButtons

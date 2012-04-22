@@ -28,7 +28,7 @@ class VocInOut:
 	def __init__(self):
 		table = gtk.Table(2, 5, False)
 
-		fontLarge  = pango.FontDescription('24')
+		fontKanji  = pango.FontDescription('IPAMincho 40')
 		fontMedium = pango.FontDescription('16')
 
 		entryDeutsch = gtk.Entry()
@@ -39,8 +39,8 @@ class VocInOut:
 		
 		entryDeutsch.modify_font(fontMedium)
 		entryKana.modify_font(fontMedium)
-		entryKanji.modify_font(fontLarge)
-		#entryTyp.modify_font(fontLarge)
+		entryKanji.modify_font(fontKanji)
+		#entryTyp.modify_font(fontKanji)
 		entryInfo.modify_font(fontMedium)
 
 		labelDeutsch = gtk.Label('Deutsch:')

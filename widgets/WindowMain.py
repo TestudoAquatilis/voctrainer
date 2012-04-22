@@ -23,13 +23,12 @@ class WindowMain:
 
 		notebook = gtk.Notebook()
 		
-		tabAdd = TabAdd(db, vocInOut)
-		notebook.append_page(tabAdd.getWidget(), gtk.Label('Hinzufügen'))
-
 		tabQuery = TabQuery(db, vocInOut)
-		notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfragen'))
-
+		tabAdd = TabAdd(db, vocInOut)
 		tabDB = TabDB(db, vocInOut)
+
+		notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfragen'))
+		notebook.append_page(tabAdd.getWidget(), gtk.Label('Hinzufügen'))
 		notebook.append_page(tabDB.getWidget(), gtk.Label('Datenbank'))
 
 		boxOuter.pack_start(vocInOut.getWidget(), True, True, 0)
