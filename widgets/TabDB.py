@@ -22,7 +22,7 @@ class TabDB:
 		self.db    = db
 		self.inOut = inOut
 
-		buttonBox = ButtonBox()
+		buttonBox  = ButtonBox()
 
 		buttonBox.add('Initialisieren',           self.handlerInit)
 		buttonBox.add('Fortschritt zurücksetzen', self.handlerResetLevel)

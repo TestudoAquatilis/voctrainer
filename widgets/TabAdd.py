@@ -19,12 +19,12 @@ class TabAdd:
 		self.db.addVoc(entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
 
 	def __init__(self, db, inOut):
-		self.db = db
+		self.db    = db
 		self.inOut = inOut
 
-		buttonBox = ButtonBox()
+		buttonBox  = ButtonBox()
 
-		buttonBox.add('Leeren', self.handlerClear)
+		buttonBox.add('Leeren',   self.handlerClear)
 		buttonBox.add('Einfügen', self.handlerInsert)
 
 		buttonBox.show()

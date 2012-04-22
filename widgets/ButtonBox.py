@@ -9,8 +9,11 @@ class ButtonBox:
 	
 	def add(self, caption, handler):
 		button = gtk.Button(caption)
+
 		self.boxButtons.pack_start(button, False, False, 0)
+
 		button.connect('clicked', handler)
+
 		button.show()
 	
 	def show(self):

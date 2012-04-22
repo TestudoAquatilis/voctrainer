@@ -29,8 +29,6 @@ class VocInOut:
 	def __init__(self):
 		table = gtk.Table(2, 5, False)
 
-	#	fontKanji  = pango.FontDescription('IPAMincho 40')
-	#	fontMedium = pango.FontDescription('16')
 		fontKanji  = config.getFont('Kanji')
 		fontMedium = config.getFont('Medium')
 

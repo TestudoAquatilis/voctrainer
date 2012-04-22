@@ -60,10 +60,10 @@ class TabQuery:
 		self.showVoc()
 
 	def __init__(self, db, inOut):
-		self.db = db
+		self.db    = db
 		self.inOut = inOut
 
-		buttonBox = ButtonBox()
+		buttonBox  = ButtonBox()
 
 		buttonBox.add('Nächste',       self.handlerNext)
 		buttonBox.add('Lösen',         self.handlerSolve)
