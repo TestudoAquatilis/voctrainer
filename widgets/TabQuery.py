@@ -48,6 +48,10 @@ class TabQuery:
 		self.getNextVoc()
 		self.showVoc()
 
+	def handlerUpdate(self, widget, data=None):
+		entries = self.inOut.getData()
+		self.db.modifyVoc(self.nextVoc['Deutsch'], self.nextVoc['Kana'], entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
+
 	def __init__(self, db, inOut):
 		self.db = db
 		self.inOut = inOut
@@ -59,6 +63,7 @@ class TabQuery:
 		buttonNotKnown = gtk.Button('Nicht gewusst')
 		buttonSolve    = gtk.Button('Lösen')
 		buttonNext     = gtk.Button('Nächste')
+		buttonUpdate   = gtk.Button('Ändern')
 
 		buttonExpand = False
 		buttonFill   = False
@@ -66,16 +71,19 @@ class TabQuery:
 		boxButtons.pack_start(buttonSolve, buttonExpand, buttonFill, 0)
 		boxButtons.pack_start(buttonKnown, buttonExpand, buttonFill, 0)
 		boxButtons.pack_start(buttonNotKnown, buttonExpand, buttonFill, 0)
+		boxButtons.pack_start(buttonUpdate, buttonExpand, buttonFill, 0)
 
 		buttonNext.connect('clicked', self.handlerNext)
 		buttonSolve.connect('clicked', self.handlerSolve)
 		buttonKnown.connect('clicked', self.handlerKnown)
 		buttonNotKnown.connect('clicked', self.handlerNotKnown)
+		buttonUpdate.connect('clicked', self.handlerUpdate)
 
 		buttonNext.show()
 		buttonSolve.show()
 		buttonKnown.show()
 		buttonNotKnown.show()
+		buttonUpdate.show()
 
 		boxButtons.show()
 

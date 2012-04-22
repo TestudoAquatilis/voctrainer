@@ -5,6 +5,9 @@ import pango
 
 class TabAdd:
 
+	def handlerClear(self, widget, data=None):
+		self.inOut.clearData()
+
 	def handlerInsert(self, widget, data=None):
 		entries = self.inOut.getData()
 
@@ -12,9 +15,6 @@ class TabAdd:
 			return
 
 		self.db.addVoc(entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
-
-	def handlerClear(self, widget, data=None):
-		self.inOut.clearData()
 
 	def __init__(self, db, inOut):
 		self.db = db

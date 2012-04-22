@@ -10,7 +10,7 @@ class VocInOut:
 			self.entry = entry
 
 		def getText(self):
-			return self.entry.get_text()
+			return self.entry.get_text().decode('utf-8')
 
 		def setText(self, text):
 			self.entry.set_text(text)
