@@ -3,5 +3,6 @@ from TabAdd import *
 from TabDB import *
 from TabQuery import *
 from VocInOut import *
+from ButtonBox import *
 
-__all__ = ['WindowMain', 'TabAdd', 'TabDB', 'TabQuery', 'VocInOut']
+__all__ = ['WindowMain', 'TabAdd', 'TabDB', 'TabQuery', 'VocInOut', 'ButtonBox']

@@ -3,6 +3,8 @@ import pygtk
 import gtk
 import pango
 
+from ButtonBox import *
+
 class TabDB:
 	def handlerInit(self, widget, data=None):
 		dia = gtk.MessageDialog(None, 0, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO)
@@ -20,25 +22,14 @@ class TabDB:
 		self.db    = db
 		self.inOut = inOut
 
-		boxButtons = gtk.VBox(False, 4)
+		buttonBox = ButtonBox()
 
-		# Buttons
-		buttonInit = gtk.Button('Initialisieren')
-		buttonResetLevel = gtk.Button('Fortschritt zurücksetzen')
+		buttonBox.add('Initialisieren',           self.handlerInit)
+		buttonBox.add('Fortschritt zurücksetzen', self.handlerResetLevel)
 
-		buttonExpand = False
-		buttonFill   = False
-		boxButtons.pack_start(buttonInit, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonResetLevel, buttonExpand, buttonFill, 0)
+		buttonBox.show()
 
-		buttonInit.connect('clicked', self.handlerInit)
-		buttonResetLevel.connect('clicked', self.handlerResetLevel)
-
-		buttonInit.show()
-		buttonResetLevel.show()
-		boxButtons.show()
-
-		self.widget = boxButtons
+		self.widget = buttonBox.getWidget()
 	
 	def getWidget(self):
 		return self.widget

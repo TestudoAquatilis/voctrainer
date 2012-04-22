@@ -101,6 +101,12 @@ class DBVoc:
 			""", (deutsch_neu, kana_neu, kanji_neu, typ_neu, info_neu, 0, timestamp, deutsch, kana))
 		self.db_connection.commit()
 
+	def deleteVoc(self, deutsch, kana):
+		self.db_cursor.execute("""
+			DELETE FROM Vocabulary WHERE Deutsch=? AND Kana=?;
+			""", (deutsch, kana))
+		self.db_connection.commit()
+
 	def getNext(self):
 		self.db_cursor.execute("""
 			SELECT * FROM Vocabulary ORDER BY Timestamp;

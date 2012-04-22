@@ -3,6 +3,8 @@ import pygtk
 import gtk
 import pango
 
+from ButtonBox import *
+
 class TabQuery:
 	def getNextVoc(self):
 		self.nextVoc = self.db.getNext()
@@ -51,46 +53,31 @@ class TabQuery:
 	def handlerUpdate(self, widget, data=None):
 		entries = self.inOut.getData()
 		self.db.modifyVoc(self.nextVoc['Deutsch'], self.nextVoc['Kana'], entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
+	
+	def handlerDelete(self, widget, data=None):
+		self.db.deleteVoc(self.nextVoc['Deutsch'], self.nextVoc['Kana'])
+		self.getNextVoc()
+		self.showVoc()
 
 	def __init__(self, db, inOut):
 		self.db = db
 		self.inOut = inOut
 
-		boxButtons = gtk.VBox(False, 4)
+		buttonBox = ButtonBox()
 
-		# Buttons
-		buttonKnown    = gtk.Button('Gewusst')
-		buttonNotKnown = gtk.Button('Nicht gewusst')
-		buttonSolve    = gtk.Button('Lösen')
-		buttonNext     = gtk.Button('Nächste')
-		buttonUpdate   = gtk.Button('Ändern')
+		buttonBox.add('Nächste',       self.handlerNext)
+		buttonBox.add('Lösen',         self.handlerSolve)
+		buttonBox.add('Gewusst',       self.handlerKnown)
+		buttonBox.add('Nicht gewusst', self.handlerNotKnown)
+		buttonBox.add('Ändern',        self.handlerUpdate)
+		buttonBox.add('Löschen',       self.handlerDelete)
 
-		buttonExpand = False
-		buttonFill   = False
-		boxButtons.pack_start(buttonNext, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonSolve, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonKnown, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonNotKnown, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonUpdate, buttonExpand, buttonFill, 0)
+		buttonBox.show()
 
-		buttonNext.connect('clicked', self.handlerNext)
-		buttonSolve.connect('clicked', self.handlerSolve)
-		buttonKnown.connect('clicked', self.handlerKnown)
-		buttonNotKnown.connect('clicked', self.handlerNotKnown)
-		buttonUpdate.connect('clicked', self.handlerUpdate)
-
-		buttonNext.show()
-		buttonSolve.show()
-		buttonKnown.show()
-		buttonNotKnown.show()
-		buttonUpdate.show()
-
-		boxButtons.show()
+		self.widget = buttonBox.getWidget()
 
 		self.nextVoc = db.getNext()
 		self.showVoc()
 		
-		self.widget = boxButtons
-
 	def getWidget(self):
 		return self.widget

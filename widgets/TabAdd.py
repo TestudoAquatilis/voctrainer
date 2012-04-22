@@ -3,6 +3,8 @@ import pygtk
 import gtk
 import pango
 
+from ButtonBox import *
+
 class TabAdd:
 
 	def handlerClear(self, widget, data=None):
@@ -20,24 +22,14 @@ class TabAdd:
 		self.db = db
 		self.inOut = inOut
 
-		buttonClear = gtk.Button('Leeren')
-		buttonInsert = gtk.Button('Einfügen')
+		buttonBox = ButtonBox()
 
-		boxButtons = gtk.VBox(False,4)
+		buttonBox.add('Leeren', self.handlerClear)
+		buttonBox.add('Einfügen', self.handlerInsert)
 
-		buttonExpand = False
-		buttonFill   = False
-		boxButtons.pack_start(buttonClear, buttonExpand, buttonFill, 0)
-		boxButtons.pack_start(buttonInsert, buttonExpand, buttonFill, 0)
-
-		buttonClear.connect('clicked', self.handlerClear)
-		buttonInsert.connect('clicked', self.handlerInsert)
-
-		buttonClear.show()
-		buttonInsert.show()
-		boxButtons.show()
+		buttonBox.show()
 		
-		self.widget = boxButtons
+		self.widget = buttonBox.getWidget()
 
 	def getWidget(self):
 		return self.widget
