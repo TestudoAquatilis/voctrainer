@@ -2,7 +2,8 @@
 
 import pygtk
 import gtk
-import pango
+
+import config
 
 class VocInOut:
 	class entryInOut:
@@ -28,8 +29,10 @@ class VocInOut:
 	def __init__(self):
 		table = gtk.Table(2, 5, False)
 
-		fontKanji  = pango.FontDescription('IPAMincho 40')
-		fontMedium = pango.FontDescription('16')
+	#	fontKanji  = pango.FontDescription('IPAMincho 40')
+	#	fontMedium = pango.FontDescription('16')
+		fontKanji  = config.getFont('Kanji')
+		fontMedium = config.getFont('Medium')
 
 		entryDeutsch = gtk.Entry()
 		entryKana    = gtk.Entry()
