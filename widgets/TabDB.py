@@ -13,23 +13,25 @@ class TabDB:
 		if dia_res == gtk.RESPONSE_YES:
 			self.db.create()
 
-	def __init__(self, db):
-		self.db = db
-		self.boxButtons = gtk.VBox(False, 4)
+	def __init__(self, db, inOut):
+		self.db    = db
+		self.inOut = inOut
+
+		boxButtons = gtk.VBox(False, 4)
 
 		# Buttons
-		self.buttonInit = gtk.Button('Initialisieren')
+		buttonInit = gtk.Button('Initialisieren')
 
 		buttonExpand = False
 		buttonFill   = False
-		self.boxButtons.pack_start(self.buttonInit, buttonExpand, buttonFill, 0)
+		boxButtons.pack_start(buttonInit, buttonExpand, buttonFill, 0)
 
-		self.buttonInit.connect('clicked', self.handlerInit)
+		buttonInit.connect('clicked', self.handlerInit)
 
-		self.buttonInit.show()
-		self.boxButtons.show()
+		buttonInit.show()
+		boxButtons.show()
 
-		self.widget = self.boxButtons
+		self.widget = boxButtons
 	
 	def getWidget(self):
 		return self.widget

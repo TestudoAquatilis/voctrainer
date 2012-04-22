@@ -3,12 +3,12 @@
 import pygtk
 import gtk
 
-import widgets.windowMain
-import database.dbVoc
+import widgets.WindowMain
+import database.DBVoc
 
 if __name__ == "__main__":
-	db      = database.dbVoc.DBVoc('test.db')
-	winMain = widgets.windowMain.WindowMain(db)
+	db      = database.DBVoc('test.db')
+	winMain = widgets.WindowMain(db)
 
 	gtk.mainloop()
 
