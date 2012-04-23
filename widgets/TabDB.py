@@ -4,7 +4,7 @@ import pygtk
 import gtk
 import pango
 
-from ButtonBox import *
+from BorderBox import *
 
 class TabDB:
 	def handlerResetLevel(self, widget, data=None):
@@ -14,13 +14,13 @@ class TabDB:
 		self.db    = db
 		self.inOut = inOut
 
-		buttonBox  = ButtonBox()
+		borderBox  = BorderBox()
 
-		buttonBox.add('Fortschritt zurücksetzen', self.handlerResetLevel)
+		borderBox.addButton('Fortschritt zurücksetzen', self.handlerResetLevel)
 
-		buttonBox.show()
+		borderBox.show()
 
-		self.widget = buttonBox.getWidget()
+		self.widget = borderBox.getWidget()
 	
 	def getWidget(self):
 		return self.widget

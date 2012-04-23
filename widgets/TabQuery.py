@@ -4,7 +4,7 @@ import pygtk
 import gtk
 import pango
 
-from ButtonBox import *
+from BorderBox import *
 
 class TabQuery:
 	def getNextVoc(self):
@@ -64,20 +64,20 @@ class TabQuery:
 		self.db    = db
 		self.inOut = inOut
 
-		buttonBox  = ButtonBox()
+		borderBox  = BorderBox()
 
-		buttonBox.add('Nächste',         self.handlerNext)
-		buttonBox.addSeparator()
-		buttonBox.add('Lösen',           self.handlerSolve)
-		buttonBox.add('Gewusst',         self.handlerKnown)
-		buttonBox.add('Nicht gewusst',   self.handlerNotKnown)
-		buttonBox.addSeparator()
-		buttonBox.add('Vokabel Ändern',  self.handlerUpdate)
-		buttonBox.add('Vokabel Löschen', self.handlerDelete)
+		borderBox.addButton('Nächste',         self.handlerNext)
+		borderBox.addSeparator()
+		borderBox.addButton('Lösen',           self.handlerSolve)
+		borderBox.addButton('Gewusst',         self.handlerKnown)
+		borderBox.addButton('Nicht gewusst',   self.handlerNotKnown)
+		borderBox.addSeparator()
+		borderBox.addButton('Vokabel Ändern',  self.handlerUpdate)
+		borderBox.addButton('Vokabel Löschen', self.handlerDelete)
 
-		buttonBox.show()
+		borderBox.show()
 
-		self.widget = buttonBox.getWidget()
+		self.widget = borderBox.getWidget()
 
 		self.nextVoc = db.getNext()
 		

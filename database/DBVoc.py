@@ -181,10 +181,10 @@ class DBVoc:
 		for i_key in data:
 			if len(data[i_key]) > 0:
 				self.db_cursor.execute("""
-					SELECT * FROM Vocabulary WHERE %s LIWE \%?\%;
-					""" % i_key, (data[i_key]))
+					SELECT * FROM Vocabulary WHERE %s LIKE ?;
+					""" % i_key, ('%' + data[i_key] + '%',))
 
-				rows = self.db_cursor.fethall()
+				rows = self.db_cursor.fetchall()
 
 				for i_row in rows:
 					entry = {}

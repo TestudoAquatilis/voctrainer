@@ -4,7 +4,7 @@ import pygtk
 import gtk
 import pango
 
-from ButtonBox import *
+from BorderBox import *
 
 class TabEdit:
 	def handlerClear(self, widget, data=None):
@@ -22,14 +22,14 @@ class TabEdit:
 		self.db    = db
 		self.inOut = inOut
 
-		buttonBox  = ButtonBox()
+		borderBox  = BorderBox()
 
-		buttonBox.add('Eingabefelder leeren', self.handlerClear)
-		buttonBox.add('Vokabel einfügen',     self.handlerInsert)
+		borderBox.addButton('Eingabefelder leeren', self.handlerClear)
+		borderBox.addButton('Vokabel einfügen',     self.handlerInsert)
 
-		buttonBox.show()
+		borderBox.show()
 		
-		self.widget = buttonBox.getWidget()
+		self.widget = borderBox.getWidget()
 
 	def getWidget(self):
 		return self.widget
