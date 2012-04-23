@@ -5,9 +5,10 @@ import gtk
 
 import widgets.WindowMain
 import database.DBVoc
+import config
 
 if __name__ == "__main__":
-	db      = database.DBVoc('test.db')
+	db      = database.DBVoc(config.getFilename('Database'))
 	winMain = widgets.WindowMain(db)
 
 	gtk.mainloop()

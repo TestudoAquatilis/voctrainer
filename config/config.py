@@ -5,6 +5,10 @@ fonts = {
 		'Kanji':  'IPAMincho 40'
 	}
 
+filenames = {
+		'Database': 'vocabulary.db'
+	}
+
 def getFont(id):
 	desc = ''
 
@@ -12,3 +16,11 @@ def getFont(id):
 		desc = fonts[id]
 	
 	return pango.FontDescription(desc)
+
+def getFilename(id):
+	result = None
+
+	if id in filenames.keys():
+		result = filenames[id]
+	
+	return result
