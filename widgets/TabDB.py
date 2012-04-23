@@ -7,15 +7,6 @@ import pango
 from ButtonBox import *
 
 class TabDB:
-	def handlerInit(self, widget, data=None):
-		dia = gtk.MessageDialog(None, 0, gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO)
-
-		dia_res = dia.run()
-		dia.hide()
-
-		if dia_res == gtk.RESPONSE_YES:
-			self.db.create()
-	
 	def handlerResetLevel(self, widget, data=None):
 		self.db.resetLevel()
 
@@ -25,7 +16,6 @@ class TabDB:
 
 		buttonBox  = ButtonBox()
 
-		buttonBox.add('Initialisieren',           self.handlerInit)
 		buttonBox.add('Fortschritt zurücksetzen', self.handlerResetLevel)
 
 		buttonBox.show()
@@ -34,3 +24,6 @@ class TabDB:
 	
 	def getWidget(self):
 		return self.widget
+
+	def setActive(self):
+		self.inOut.clearData()

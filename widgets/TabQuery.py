@@ -78,7 +78,10 @@ class TabQuery:
 		self.widget = buttonBox.getWidget()
 
 		self.nextVoc = db.getNext()
-		self.showVoc()
 		
 	def getWidget(self):
 		return self.widget
+
+	def setActive(self):
+		self.getNextVoc()
+		self.showVoc()

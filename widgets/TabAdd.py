@@ -34,3 +34,6 @@ class TabAdd:
 
 	def getWidget(self):
 		return self.widget
+
+	def setActive(self):
+		self.inOut.clearData()

@@ -10,8 +10,11 @@ from TabQuery import *
 from TabDB import *
 
 class WindowMain:
-	def destroy(self, widget, data=None):
+	def handlerDestroy(self, widget, data=None):
 		gtk.mainquit()
+
+	def handlerPageChanged(self, widget, page, page_num, data=None):
+		self.pages[page_num].setActive()
 
 	def __init__(self, db):
 		db       = db
@@ -26,18 +29,34 @@ class WindowMain:
 		tabAdd   = TabAdd  (db, vocInOut)
 		tabDB    = TabDB   (db, vocInOut)
 
-		notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfragen'))
-		notebook.append_page(tabAdd.getWidget(),   gtk.Label('Hinzufügen'))
-		notebook.append_page(tabDB.getWidget(),    gtk.Label('Datenbank'))
+		pages = {}
+
+		page1 = notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfragen'))
+		page2 = notebook.append_page(tabAdd.getWidget(),   gtk.Label('Hinzufügen'))
+		page3 = notebook.append_page(tabDB.getWidget(),    gtk.Label('Datenbank'))
+
+		pages[page1] = tabQuery
+		pages[page2] = tabAdd
+		pages[page3] = tabDB
+
+		self.pages = pages
+
+		notebook.set_current_page(page1)
+		tabQuery.setActive()
 
 		boxOuter.pack_start(vocInOut.getWidget(), True,  True,  0)
 		boxOuter.pack_start(notebook,             False, False, 0)
 
 		window.add(boxOuter)
 
-		window.connect('destroy',self.destroy)
+		window.connect  ('destroy',self.handlerDestroy)
+		notebook.connect('switch-page',self.handlerPageChanged)
 
 		notebook.show()
 		boxOuter.show()
+
+		(winWidth, winHeight) = window.get_size()
+		window.resize(winWidth + 150, winHeight + 150)
+
 		window.show()
 
