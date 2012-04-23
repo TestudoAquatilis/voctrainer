@@ -15,6 +15,9 @@ class VocInOut:
 
 		def setText(self, text):
 			self.entry.set_text(text)
+
+		def setSensitive(self, sensitivity):
+			self.entry.set_sensitive(sensitivity)
 	
 	class textViewInOut:
 		def __init__(self, textView):
@@ -25,6 +28,9 @@ class VocInOut:
 
 		def setText(self, text):
 			self.textView.get_buffer().set_text(text)
+
+		def setSensitive(self, sensitivity):
+			self.textView.set_sensitive(sensitivity)
 
 	def __init__(self):
 		table = gtk.Table(2, 5, False)
@@ -115,3 +121,7 @@ class VocInOut:
 	def clearData(self):
 		for i_val in self.entries.values():
 			i_val.setText('')
+	
+	def setSensitive(self, sensitivity):
+		for i_val in self.entries.values():
+			i_val.setSensitive(sensitivity)

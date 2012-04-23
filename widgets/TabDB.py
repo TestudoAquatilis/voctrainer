@@ -27,3 +27,4 @@ class TabDB:
 
 	def setActive(self):
 		self.inOut.clearData()
+		self.inOut.setSensitive(False)

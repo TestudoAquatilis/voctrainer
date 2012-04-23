@@ -64,11 +64,11 @@ class TabEdit:
 		comboBox.connect('changed', self.handlerCBXResultChanged)
 
 		borderBox.addButton('Eingabefelder leeren', self.handlerClear)
-		borderBox.addButton('Vokabel einfügen',     self.handlerInsert)
 		borderBox.addSeparator()
 		borderBox.addButton('Suchen',               self.handlerSearch)
 		borderBox.addWidget(comboBox)
 		borderBox.addSeparator()
+		borderBox.addButton('Vokabel Einfügen',     self.handlerInsert)
 		borderBox.addButton('Vokabel Ändern',       self.handlerModify)
 		borderBox.addButton('Vokabel Löschen',      self.handlerDelete)
 
@@ -85,6 +85,7 @@ class TabEdit:
 		return self.widget
 
 	def setActive(self):
+		self.inOut.setSensitive(True)
 		if self.currentVoc:
 			self.inOut.setData(self.currentVoc)
 		else:

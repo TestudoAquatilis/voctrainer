@@ -85,5 +85,6 @@ class TabQuery:
 		return self.widget
 
 	def setActive(self):
+		self.inOut.setSensitive(True)
 		self.getNextVoc()
 		self.showVoc()
