@@ -175,3 +175,27 @@ class DBVoc:
 			return True
 		else:
 			return False
+	
+	def searchVoc(self, data):
+		result = []
+		for i_key in data:
+			if len(data[i_key]) > 0:
+				self.db_cursor.execute("""
+					SELECT * FROM Vocabulary WHERE %s LIWE \%?\%;
+					""" % i_key, (data[i_key]))
+
+				rows = self.db_cursor.fethall()
+
+				for i_row in rows:
+					entry = {}
+
+					entry['Deutsch'] = i_row[0]
+					entry['Kana']    = i_row[1]
+					entry['Kanji']   = i_row[2]
+					entry['Typ']     = i_row[3]
+					entry['Info']    = i_row[4]
+					entry['Level']   = i_row[5]
+
+					result.append(entry)
+
+		return result
