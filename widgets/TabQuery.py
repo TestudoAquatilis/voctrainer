@@ -75,9 +75,9 @@ class TabQuery:
 
 		borderBox.addButton('Nächste',         self.handlerNext)
 		borderBox.addSeparator()
-		borderBox.addButton('Lösen',           self.handlerSolve,    ['query'])
-		borderBox.addButton('Gewusst',         self.handlerKnown,    ['solution'])
-		borderBox.addButton('Nicht gewusst',   self.handlerNotKnown, ['solution'])
+		borderBox.addButton('_Lösen',          self.handlerSolve,    ['query'])
+		borderBox.addButton('_Gewusst',        self.handlerKnown,    ['solution'])
+		borderBox.addButton('_Nicht gewusst',  self.handlerNotKnown, ['solution'])
 		borderBox.addSeparator()
 		borderBox.addButton('Vokabel Ändern',  self.handlerUpdate,   ['solution'])
 		borderBox.addButton('Vokabel Löschen', self.handlerDelete,   ['solution'])

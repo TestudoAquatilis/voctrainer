@@ -16,7 +16,7 @@ class BorderBox:
 		self.stateDependant  = []
 		self.stateAssignment = {}
 	
-	def addButton(self, caption, handler, states = None):
+	def addButton(self, caption, handler, states=None):
 		button = gtk.Button(caption)
 
 		self.boxButtons.pack_start(button, False, False, 0)

@@ -80,10 +80,10 @@ class TabEdit:
 
 		borderBox.addButton('Eingabefelder leeren', self.handlerClear)
 		borderBox.addSeparator()
-		borderBox.addButton('Suchen',               self.handlerSearch, ['new'])
+		borderBox.addButton('_Suchen',              self.handlerSearch, ['new'])
 		borderBox.addWidget(comboBox,                                   ['existing'])
 		borderBox.addSeparator()
-		borderBox.addButton('Vokabel Einfügen',     self.handlerInsert, ['new'])
+		borderBox.addButton('Vokabel _Einfügen',    self.handlerInsert, ['new'])
 		borderBox.addButton('Vokabel Ändern',       self.handlerModify, ['existing'])
 		borderBox.addButton('Vokabel Löschen',      self.handlerDelete, ['existing'])
 
