@@ -6,7 +6,7 @@ import pango
 
 from ButtonBox import *
 
-class TabAdd:
+class TabEdit:
 
 	def handlerClear(self, widget, data=None):
 		self.inOut.clearData()
@@ -25,8 +25,8 @@ class TabAdd:
 
 		buttonBox  = ButtonBox()
 
-		buttonBox.add('Leeren',   self.handlerClear)
-		buttonBox.add('Einfügen', self.handlerInsert)
+		buttonBox.add('Eingabefelder leeren', self.handlerClear)
+		buttonBox.add('Vokabel einfügen',     self.handlerInsert)
 
 		buttonBox.show()
 		

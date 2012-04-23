@@ -16,6 +16,13 @@ class ButtonBox:
 
 		button.show()
 	
+	def addSeparator(self):
+		separator = gtk.HSeparator()
+		
+		self.boxButtons.pack_start(separator, False, False, 0)
+
+		separator.show()
+	
 	def show(self):
 		self.boxButtons.show()
 	

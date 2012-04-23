@@ -5,7 +5,7 @@ import gtk
 
 from . import *
 from VocInOut import *
-from TabAdd import *
+from TabEdit import *
 from TabQuery import *
 from TabDB import *
 
@@ -26,17 +26,17 @@ class WindowMain:
 
 
 		tabQuery = TabQuery(db, vocInOut)
-		tabAdd   = TabAdd  (db, vocInOut)
+		tabEdit  = TabEdit  (db, vocInOut)
 		tabDB    = TabDB   (db, vocInOut)
 
 		pages = {}
 
-		page1 = notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfragen'))
-		page2 = notebook.append_page(tabAdd.getWidget(),   gtk.Label('Hinzufügen'))
-		page3 = notebook.append_page(tabDB.getWidget(),    gtk.Label('Datenbank'))
+		page1 = notebook.append_page(tabQuery.getWidget(), gtk.Label('Abfrage'))
+		page2 = notebook.append_page(tabEdit.getWidget(),  gtk.Label('Vokabeln'))
+		page3 = notebook.append_page(tabDB.getWidget(),    gtk.Label('DB'))
 
 		pages[page1] = tabQuery
-		pages[page2] = tabAdd
+		pages[page2] = tabEdit
 		pages[page3] = tabDB
 
 		self.pages = pages

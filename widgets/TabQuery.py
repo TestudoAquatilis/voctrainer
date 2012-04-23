@@ -66,12 +66,14 @@ class TabQuery:
 
 		buttonBox  = ButtonBox()
 
-		buttonBox.add('Nächste',       self.handlerNext)
-		buttonBox.add('Lösen',         self.handlerSolve)
-		buttonBox.add('Gewusst',       self.handlerKnown)
-		buttonBox.add('Nicht gewusst', self.handlerNotKnown)
-		buttonBox.add('Ändern',        self.handlerUpdate)
-		buttonBox.add('Löschen',       self.handlerDelete)
+		buttonBox.add('Nächste',         self.handlerNext)
+		buttonBox.addSeparator()
+		buttonBox.add('Lösen',           self.handlerSolve)
+		buttonBox.add('Gewusst',         self.handlerKnown)
+		buttonBox.add('Nicht gewusst',   self.handlerNotKnown)
+		buttonBox.addSeparator()
+		buttonBox.add('Vokabel Ändern',  self.handlerUpdate)
+		buttonBox.add('Vokabel Löschen', self.handlerDelete)
 
 		buttonBox.show()
 
