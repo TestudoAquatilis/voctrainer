@@ -73,28 +73,53 @@ class DBVoc:
 	def getTimestamp(self, level):
 		return self.getTimestampNow() + self.getOffset(level) + self.getDelta(level)
 		
-	def addVoc(self, deutsch, kana, kanji, typ, info):
+	def addVoc(self, data):
 		timestamp = self.getTimestamp(0)
+
+		deutsch = data['Deutsch']
+		kana    = data['Kana']
+		kanji   = data['Kanji']
+		typ     = data['Typ']
+		info    = data['Info']
+
 		self.db_cursor.execute("""
 			INSERT INTO Vocabulary VALUES(?, ?, ?, ?, ?, 0, ?);
 			""", (deutsch, kana, kanji, typ, info, timestamp))
 		self.db_connection.commit()
 	
-	def updateLevel(self, deutsch, kana, level):
+	def updateLevel(self, data, level):
 		timestamp = self.getTimestamp(level)
+
+		deutsch = data['Deutsch']
+		kana    = data['Kana']
+
 		self.db_cursor.execute("""
 			UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
 			""", (level, timestamp, deutsch, kana))
 		self.db_connection.commit()
 	
-	def modifyVoc(self, deutsch, kana, deutsch_neu, kana_neu, kanji_neu, typ_neu, info_neu):
+	def modifyVoc(self, oldData, newData):
 		timestamp = self.getTimestamp(0)
+
+		deutsch = oldData['Deutsch']
+		kana    = oldData['Kana']
+
+		deutsch_neu = newData['Deutsch']
+		kana_neu    = newData['Kana']
+		kanji_neu   = newData['Kanji']
+		typ_neu     = newData['Typ']
+		info_neu    = newData['Info']
+
+
 		self.db_cursor.execute("""
 			UPDATE Vocabulary SET Deutsch=?, Kana=?, Kanji=?, Typ=?, Info=?, Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
 			""", (deutsch_neu, kana_neu, kanji_neu, typ_neu, info_neu, 0, timestamp, deutsch, kana))
 		self.db_connection.commit()
 
-	def deleteVoc(self, deutsch, kana):
+	def deleteVoc(self, data):
+		deutsch = data['Deutsch']
+		kana    = data['Kana']
+
 		self.db_cursor.execute("""
 			DELETE FROM Vocabulary WHERE Deutsch=? AND Kana=?;
 			""", (deutsch, kana))
@@ -136,7 +161,10 @@ class DBVoc:
 
 		self.db_connection.commit()
 
-	def hasVoc(self, deutsch, kana):
+	def hasVoc(self, data):
+		deutsch = data['Deutsch']
+		kana    = data['Kana']
+
 		self.db_cursor.execute("""
 			SELECT * FROM Vocabulary WHERE Deutsch=? AND Kana=?;
 			""", (deutsch, kana))

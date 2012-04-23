@@ -27,12 +27,12 @@ class TabQuery:
 	def known(self):
 		if len(self.nextVoc.keys()) < 6:
 			return
-		self.db.updateLevel(self.nextVoc['Deutsch'], self.nextVoc['Kana'], self.nextVoc['Level']+1)
+		self.db.updateLevel(self.nextVoc, self.nextVoc['Level']+1)
 
 	def notKnown(self):
 		if len(self.nextVoc.keys()) < 6:
 			return
-		self.db.updateLevel(self.nextVoc['Deutsch'], self.nextVoc['Kana'], 0)
+		self.db.updateLevel(self.nextVoc, 0)
 
 	def handlerNext(self, widget, data=None):
 		self.getNextVoc()
@@ -53,10 +53,10 @@ class TabQuery:
 
 	def handlerUpdate(self, widget, data=None):
 		entries = self.inOut.getData()
-		self.db.modifyVoc(self.nextVoc['Deutsch'], self.nextVoc['Kana'], entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
+		self.db.modifyVoc(self.nextVoc, entries)
 	
 	def handlerDelete(self, widget, data=None):
-		self.db.deleteVoc(self.nextVoc['Deutsch'], self.nextVoc['Kana'])
+		self.db.deleteVoc(self.nextVoc)
 		self.getNextVoc()
 		self.showVoc()
 

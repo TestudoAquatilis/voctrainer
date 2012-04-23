@@ -109,6 +109,8 @@ class VocInOut:
 		for i_key in self.entries.keys():
 			if i_key in data.keys():
 				self.entries[i_key].setText(data[i_key])
+			else:
+				self.entries[i_key].setText('')
 	
 	def clearData(self):
 		for i_val in self.entries.values():

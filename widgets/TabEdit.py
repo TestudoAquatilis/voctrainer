@@ -7,7 +7,6 @@ import pango
 from ButtonBox import *
 
 class TabEdit:
-
 	def handlerClear(self, widget, data=None):
 		self.inOut.clearData()
 
@@ -17,7 +16,7 @@ class TabEdit:
 		if len(entries['Deutsch']) == 0 or len(entries['Kana']) == 0:
 			return
 
-		self.db.addVoc(entries['Deutsch'], entries['Kana'], entries['Kanji'], entries['Typ'], entries['Info'])
+		self.db.addVoc(entries)
 
 	def __init__(self, db, inOut):
 		self.db    = db
