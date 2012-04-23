@@ -2,7 +2,6 @@
 
 import pygtk
 import gtk
-import pango
 
 from BorderBox import *
 
