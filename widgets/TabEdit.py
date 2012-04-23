@@ -9,6 +9,7 @@ from BorderBox import *
 class TabEdit:
 	def handlerClear(self, widget, data=None):
 		self.inOut.clearData()
+		self.setState('new')
 
 	def handlerInsert(self, widget, data=None):
 		entries = self.inOut.getData()
@@ -17,6 +18,8 @@ class TabEdit:
 			return
 
 		self.db.addVoc(entries)
+		self.inOut.clearData()
+		self.setState('new')
 	
 	def handlerSearch(self, widget, data=None):
 		searchResults      = self.db.searchVoc(self.inOut.getData())
@@ -41,9 +44,11 @@ class TabEdit:
 		if index < 0:
 			self.currentVoc = None
 			self.inOut.clearData()
+			self.setState('new')
 		else:
 			self.currentVoc = self.searchResults[index]
 			self.inOut.setData(self.currentVoc)
+			self.setState('existing')
 	
 	def handlerModify(self, widget, data=None):
 		if self.currentVoc:
@@ -51,12 +56,23 @@ class TabEdit:
 			self.db.modifyVoc(self.currentVoc, entries)
 	
 	def handlerDelete(self, widget, data=None):
-		if self.currentVoc:
-			self.db.deleteVoc(self.currentVoc)
+		if not self.currentVoc:
+			return
+
+		self.db.deleteVoc(self.currentVoc)
+
+		index = self.searchResultBox.get_active()
+		self.searchResults.pop(index)
+		self.searchResultBox.remove_text(index)
+		if len(self.searchResults) > 0:
+			self.searchResultBox.set_active(0)
+		else:
+			self.searchResultBox.set_active(-1)
 
 	def __init__(self, db, inOut):
 		self.db    = db
 		self.inOut = inOut
+		self.state = 'new'
 
 		borderBox  = BorderBox()
 		comboBox   = gtk.combo_box_new_text()
@@ -65,16 +81,18 @@ class TabEdit:
 
 		borderBox.addButton('Eingabefelder leeren', self.handlerClear)
 		borderBox.addSeparator()
-		borderBox.addButton('Suchen',               self.handlerSearch)
-		borderBox.addWidget(comboBox)
+		borderBox.addButton('Suchen',               self.handlerSearch, ['new'])
+		borderBox.addWidget(comboBox,                                   ['existing'])
 		borderBox.addSeparator()
-		borderBox.addButton('Vokabel Einfügen',     self.handlerInsert)
-		borderBox.addButton('Vokabel Ändern',       self.handlerModify)
-		borderBox.addButton('Vokabel Löschen',      self.handlerDelete)
+		borderBox.addButton('Vokabel Einfügen',     self.handlerInsert, ['new'])
+		borderBox.addButton('Vokabel Ändern',       self.handlerModify, ['existing'])
+		borderBox.addButton('Vokabel Löschen',      self.handlerDelete, ['existing'])
 
 		comboBox.show()
+		borderBox.setState('new')
 		borderBox.show()
 		
+		self.box             = borderBox
 		self.searchResultBox = comboBox
 		self.widget          = borderBox.getWidget()
 
@@ -86,8 +104,11 @@ class TabEdit:
 
 	def setActive(self):
 		self.inOut.setSensitive(True)
-		if self.currentVoc:
+		if self.state == 'existing':
 			self.inOut.setData(self.currentVoc)
 		else:
 			self.inOut.clearData()
 
+	def setState(self, state):
+		self.state = state
+		self.box.setState(state)
