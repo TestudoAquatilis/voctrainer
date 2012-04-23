@@ -6,30 +6,93 @@ import gtk
 import config
 
 class VocInOut:
+	"""
+	Class holding the gtk.Widgets for input and output.
+
+	Contains entries for the fields in the database and
+	functions for easily setting and getting the values
+	as dictionaries.
+
+	All data dictionaries are of type:
+	@code {
+	'Deutsch': <value>,
+	'Kana':    <value>,
+	'Kanji':   <value>,
+	'Typ':     <value>,
+	'Info':    <value>}@endcode
+	"""
+
 	class entryInOut:
+		"""
+		Nested class for abstraction from gtk.Entry.
+		"""
+
 		def __init__(self, entry):
+			"""
+			Constructor.
+
+			@param entry the @code gtk.Entry @endcode text is interchanged with
+			"""
 			self.entry = entry
 
 		def getText(self):
+			"""
+			Returns the text of the Entry.
+
+			@return The text of the Entry as string
+			"""
 			return self.entry.get_text().decode('utf-8')
 
 		def setText(self, text):
+			"""
+			Sets the text of the Entry.
+
+			@param text the text as string
+			"""
 			self.entry.set_text(text)
 
 		def setSensitive(self, sensitivity):
+			"""
+			Sets the sensitivity of the Entry.
+
+			@param sensitivity sensitivity as boolean
+			"""
 			self.entry.set_sensitive(sensitivity)
 	
 	class textViewInOut:
+		"""
+		Nested class for abstraction from gtk.TextView.
+		"""
 		def __init__(self, textView):
+			"""
+			Constructor.
+
+			@param textView the @code gtk.TextView @endcode text is interchanged with
+			"""
 			self.textView = textView
 
 		def getText(self):
+			"""
+			Returns the text of the TextView.
+
+			@return The text of the TextView
+			"""
 			return self.textView.get_buffer().get_text(self.textView.get_buffer().get_start_iter(), self.textView.get_buffer().get_end_iter()).decode('utf-8')
 
 		def setText(self, text):
+			"""
+			Sets the text of the TextView.
+
+			@param text the text as string
+			"""
 			self.textView.get_buffer().set_text(text)
 
 		def setSensitive(self, sensitivity):
+			"""
+			Sets the sensitivity of the TextView.
+
+			@param sensitivity the sensitivity as boolean
+			"""
 			self.textView.set_sensitive(sensitivity)
 
 	def __init__(self):
@@ -101,9 +164,19 @@ class VocInOut:
 		self.entries = entries
 
 	def getWidget(self):
+		"""
+		Returns the outer container widget.
+
+		@return the @code gtk.Widget @endcode containing all the needed widgets
+		"""
 		return self.widget
 
 	def getData(self):
+		"""
+		Returns the data of the input fields as dictionary.
+
+		@return the data of the input fields as dictionary
+		"""
 		result = {}
 
 		for i_key in self.entries.keys():
@@ -112,6 +185,11 @@ class VocInOut:
 		return result
 	
 	def setData(self, data):
+		"""
+		Sets the data of the input fields.
+
+		@param data the data as dictionary
+		"""
 		for i_key in self.entries.keys():
 			if i_key in data.keys():
 				self.entries[i_key].setText(data[i_key])
@@ -119,9 +197,17 @@ class VocInOut:
 				self.entries[i_key].setText('')
 	
 	def clearData(self):
+		"""
+		Resets the data of the input fields
+		"""
 		for i_val in self.entries.values():
 			i_val.setText('')
 	
 	def setSensitive(self, sensitivity):
+		"""
+		Sets sensitivity of input fields.
+
+		@param sensitivity sensitivity as boolean
+		"""
 		for i_val in self.entries.values():
 			i_val.setSensitive(sensitivity)

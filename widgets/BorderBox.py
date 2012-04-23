@@ -4,6 +4,12 @@ import pygtk
 import gtk
 
 class BorderBox:
+	"""
+	A box containing control widgets.
+
+	Used for abstraction from widget creation, packing, showing, connecting, ...
+	"""
+
 	def __init__(self):
 		self.boxButtons = gtk.VBox(False,4)
 

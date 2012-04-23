@@ -3,3 +3,4 @@
 *.swp
 *.vim
 __pycache__
+doxy/

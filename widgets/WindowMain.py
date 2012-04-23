@@ -10,6 +10,12 @@ from TabQuery import *
 from TabDB import *
 
 class WindowMain:
+	"""
+	Main Window of the Program.
+
+	Here the widgets are put in
+	"""
+
 	def handlerDestroy(self, widget, data=None):
 		gtk.mainquit()
 
@@ -17,6 +23,12 @@ class WindowMain:
 		self.pages[page_num].setActive()
 
 	def __init__(self, db):
+		"""
+		Constructor.
+
+		@param db The object, data is handled in as database.DBVoc
+		@see database.DBVoc.DBVoc
+		"""
 		db       = db
 		vocInOut = VocInOut()
 
