@@ -23,9 +23,7 @@ class DBVoc:
 			""")
 		self.db_connection.commit()
 
-	def getTimestamp(self, level):
-		level = int(level)
-
+	def getTimestampNow(self):
 		current_time = datetime.datetime.now()
 
 		year   = current_time.year
@@ -35,36 +33,6 @@ class DBVoc:
 		minute = current_time.minute
 		second = current_time.second
 
-		if level <= 0:
-			minute += random.randint(-100,100)
-			second += random.randint(-60, 60)
-		elif level == 1:
-			hour   += 2
-			minute += random.randint(-60,60) 
-			second += random.randint(-60,60)
-		elif level == 2:
-			hour   += 12 
-			hour   += random.randint(-6,6) 
-			minute += random.randint(-60,60) 
-			second += random.randint(-60,60)
-		elif level == 3:
-			day    += 2
-			hour   += random.randint(-24,24) 
-			minute += random.randint(-60,60) 
-			second += random.randint(-60,60)
-		elif level == 4:
-			day    += 6
-			day    += random.randint(-2,2)
-			hour   += random.randint(-24,24) 
-			minute += random.randint(-60,60) 
-			second += random.randint(-60,60)
-		else:
-			day    += 14
-			day    += random.randint(-5,5)
-			hour   += random.randint(-24,24) 
-			minute += random.randint(-60,60) 
-			second += random.randint(-60,60)
-		
 		result = year
 		result *= 12
 		result += month
@@ -79,7 +47,32 @@ class DBVoc:
 
 		return result
 
-	
+	def getOffset(self, level):
+		baseUnit = 24*60*60
+
+		if level <= 0:
+			return 600
+
+		if level == 1:
+			return 8*3600
+
+		if level > 8:
+			level = 8
+
+		level -= 1
+
+		factor = 2 ** level
+
+		return int(baseUnit * factor)
+
+	def getDelta(self, level):
+		maxDelta = int(self.getOffset(level) / 4)
+
+		return random.randint(-maxDelta, maxDelta)
+
+	def getTimestamp(self, level):
+		return self.getTimestampNow() + self.getOffset(level) + self.getDelta(level)
+		
 	def addVoc(self, deutsch, kana, kanji, typ, info):
 		timestamp = self.getTimestamp(0)
 		self.db_cursor.execute("""
