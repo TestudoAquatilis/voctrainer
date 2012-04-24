@@ -16,6 +16,12 @@ class TabEdit:
 		if len(entries['Deutsch']) == 0 or len(entries['Kana']) == 0:
 			return
 
+		if self.db.hasVoc(entries):
+			dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, 'Vokabel existiert bereits!')
+			dialog.run()
+			dialog.destroy()
+			return
+
 		self.db.addVoc(entries)
 		self.inOut.clearData()
 		self.setState('new')
