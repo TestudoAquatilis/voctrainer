@@ -199,3 +199,51 @@ class DBVoc:
 					result.append(entry)
 
 		return result
+
+	def exportToFile(self, filename):
+		outFile = open(filename, 'w')
+
+		self.db_cursor.execute("""
+			SELECT Deutsch,Kana,Kanji,Typ,Info FROM Vocabulary;
+			""")
+
+		rows = self.db_cursor.fetchall()
+
+		for i_row in rows:
+			replacedLine = []
+			for i_item in i_row:
+				replacedLine.append(self.__exportString(i_item))
+
+			line = ';'.join(replacedLine) + '\n'
+
+			outFile.write(line)
+	
+	def importFromFile(self, filename):
+		inFile = open(filename, 'r')
+
+		for i_line in inFile:
+			items = i_line.split(';')
+
+			if len(items) < 5:
+				continue
+			
+			data = {}
+
+			data['Deutsch'] = self.__importString(items[0])
+			data['Kana']    = self.__importString(items[1])
+			data['Kanji']   = self.__importString(items[2])
+			data['Typ']     = self.__importString(items[3])
+			data['Info']    = self.__importString(items[4])
+
+			if not self.hasVoc(data):
+				self.addVoc(data)
+
+
+	def __exportString(self, string):
+		result = string.replace('\\','\\b').replace('\n','\\n').replace(';','\\s')
+		return result
+
+	def __importString(self, string):
+		result = string.replace('\\s',';').replace('\\n','\n').replace('\\b','\\')
+		return result.decode('utf-8')
+
