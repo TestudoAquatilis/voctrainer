@@ -6,7 +6,7 @@ import gtk
 from BorderBox import *
 
 class TabDB:
-	def handlerResetLevel(self, widget, data=None):
+	def __handlerResetLevel(self, widget, data=None):
 		self.db.resetLevel()
 
 	def __init__(self, db, inOut):
@@ -15,7 +15,7 @@ class TabDB:
 
 		borderBox  = BorderBox()
 
-		borderBox.addButton('Fortschritt zurücksetzen', self.handlerResetLevel)
+		borderBox.addButton('Fortschritt zurücksetzen', self.__handlerResetLevel)
 
 		borderBox.show()
 

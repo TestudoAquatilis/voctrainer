@@ -6,11 +6,11 @@ import gtk
 from BorderBox import *
 
 class TabEdit:
-	def handlerClear(self, widget, data=None):
+	def __handlerClear(self, widget, data=None):
 		self.inOut.clearData()
 		self.setState('new')
 
-	def handlerInsert(self, widget, data=None):
+	def __handlerInsert(self, widget, data=None):
 		entries = self.inOut.getData()
 
 		if len(entries['Deutsch']) == 0 or len(entries['Kana']) == 0:
@@ -20,7 +20,7 @@ class TabEdit:
 		self.inOut.clearData()
 		self.setState('new')
 	
-	def handlerSearch(self, widget, data=None):
+	def __handlerSearch(self, widget, data=None):
 		searchResults      = self.db.searchVoc(self.inOut.getData())
 		self.searchResults = searchResults
 		comboBox           = self.searchResultBox
@@ -37,7 +37,7 @@ class TabEdit:
 			comboBox.set_active(-1)
 
 	
-	def handlerCBXResultChanged(self, widget, data=None):
+	def __handlerCBXResultChanged(self, widget, data=None):
 		index = widget.get_active()
 
 		if index < 0:
@@ -49,12 +49,12 @@ class TabEdit:
 			self.inOut.setData(self.currentVoc)
 			self.setState('existing')
 	
-	def handlerModify(self, widget, data=None):
+	def __handlerModify(self, widget, data=None):
 		if self.currentVoc:
 			entries = self.inOut.getData()
 			self.db.modifyVoc(self.currentVoc, entries)
 	
-	def handlerDelete(self, widget, data=None):
+	def __handlerDelete(self, widget, data=None):
 		if not self.currentVoc:
 			return
 
@@ -76,16 +76,16 @@ class TabEdit:
 		borderBox  = BorderBox()
 		comboBox   = gtk.combo_box_new_text()
 
-		comboBox.connect('changed', self.handlerCBXResultChanged)
+		comboBox.connect('changed', self.__handlerCBXResultChanged)
 
-		borderBox.addButton('Eingabefelder leeren', self.handlerClear)
+		borderBox.addButton('Eingabefelder leeren', self.__handlerClear)
 		borderBox.addSeparator()
-		borderBox.addButton('_Suchen',              self.handlerSearch, ['new'])
+		borderBox.addButton('_Suchen',              self.__handlerSearch, ['new'])
 		borderBox.addWidget(comboBox,                                   ['existing'])
 		borderBox.addSeparator()
-		borderBox.addButton('Vokabel _Einfügen',    self.handlerInsert, ['new'])
-		borderBox.addButton('Vokabel Ändern',       self.handlerModify, ['existing'])
-		borderBox.addButton('Vokabel Löschen',      self.handlerDelete, ['existing'])
+		borderBox.addButton('Vokabel _Einfügen',    self.__handlerInsert, ['new'])
+		borderBox.addButton('Vokabel Ändern',       self.__handlerModify, ['existing'])
+		borderBox.addButton('Vokabel Löschen',      self.__handlerDelete, ['existing'])
 
 		comboBox.show()
 		borderBox.setState('new')

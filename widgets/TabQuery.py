@@ -40,28 +40,28 @@ class TabQuery:
 			return
 		self.db.updateLevel(self.nextVoc, 0)
 
-	def handlerNext(self, widget, data=None):
+	def __handlerNext(self, widget, data=None):
 		self.getNextVoc()
 		self.query()
 
-	def handlerSolve(self, widget, data=None):
+	def __handlerSolve(self, widget, data=None):
 		self.solve()
 
-	def handlerKnown(self, widget, data=None):
+	def __handlerKnown(self, widget, data=None):
 		self.known()
 		self.getNextVoc()
 		self.query()
 	
-	def handlerNotKnown(self, widget, data=None):
+	def __handlerNotKnown(self, widget, data=None):
 		self.notKnown()
 		self.getNextVoc()
 		self.query()
 
-	def handlerUpdate(self, widget, data=None):
+	def __handlerUpdate(self, widget, data=None):
 		entries = self.inOut.getData()
 		self.db.modifyVoc(self.nextVoc, entries)
 	
-	def handlerDelete(self, widget, data=None):
+	def __handlerDelete(self, widget, data=None):
 		self.db.deleteVoc(self.nextVoc)
 		self.getNextVoc()
 		self.query()
@@ -73,14 +73,14 @@ class TabQuery:
 
 		borderBox  = BorderBox()
 
-		borderBox.addButton('Nächste',         self.handlerNext)
+		borderBox.addButton('Nächste',         self.__handlerNext)
 		borderBox.addSeparator()
-		borderBox.addButton('_Lösen',          self.handlerSolve,    ['query'])
-		borderBox.addButton('_Gewusst',        self.handlerKnown,    ['solution'])
-		borderBox.addButton('_Nicht gewusst',  self.handlerNotKnown, ['solution'])
+		borderBox.addButton('_Lösen',          self.__handlerSolve,    ['query'])
+		borderBox.addButton('_Gewusst',        self.__handlerKnown,    ['solution'])
+		borderBox.addButton('_Nicht gewusst',  self.__handlerNotKnown, ['solution'])
 		borderBox.addSeparator()
-		borderBox.addButton('Vokabel Ändern',  self.handlerUpdate,   ['solution'])
-		borderBox.addButton('Vokabel Löschen', self.handlerDelete,   ['solution'])
+		borderBox.addButton('Vokabel Ändern',  self.__handlerUpdate,   ['solution'])
+		borderBox.addButton('Vokabel Löschen', self.__handlerDelete,   ['solution'])
 
 		borderBox.setState('query')
 		borderBox.show()

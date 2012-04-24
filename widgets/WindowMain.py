@@ -16,10 +16,10 @@ class WindowMain:
 	Here the widgets are put in
 	"""
 
-	def handlerDestroy(self, widget, data=None):
+	def __handlerDestroy(self, widget, data=None):
 		gtk.mainquit()
 
-	def handlerPageChanged(self, widget, page, page_num, data=None):
+	def __handlerPageChanged(self, widget, page, page_num, data=None):
 		self.pages[page_num].setActive()
 
 	def __init__(self, db):
@@ -61,8 +61,8 @@ class WindowMain:
 
 		window.add(boxOuter)
 
-		window.connect  ('destroy',self.handlerDestroy)
-		notebook.connect('switch-page',self.handlerPageChanged)
+		window.connect  ('destroy',self.__handlerDestroy)
+		notebook.connect('switch-page',self.__handlerPageChanged)
 
 		notebook.show()
 		boxOuter.show()
