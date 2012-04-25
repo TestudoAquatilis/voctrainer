@@ -202,6 +202,20 @@ class DBVoc:
 
 		return result
 
+	def getTypList(self):
+		result = []
+
+		self.db_cursor.execute("""
+			SELECT Typ FROM Vocabulary GROUP BY Typ;
+			""")
+
+		rows = self.db_cursor.fetchall()
+
+		for i_row in rows:
+			result.append(i_row[0])
+
+		return result
+
 	def exportToFile(self, filename):
 		outFile = open(filename, 'w')
 
