@@ -3,27 +3,44 @@ import datetime
 import random
 
 class DBVoc:
+	"""
+	Wrapper for the vocabulary sqlite-database.
+	"""
 
 	def __init__(self, path):
+		"""
+		Constructor.
+
+		@param path The Path to the database file to use
+		"""
 		path = str(path)
 
-		self.db_connection = sqlite3.connect(path)
-		self.db_cursor     = self.db_connection.cursor()
+		self.__connection = sqlite3.connect(path)
+		self.__cursor     = self.__connection.cursor()
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			CREATE TABLE IF NOT EXISTS Vocabulary(Deutsch TEXT, Kana TEXT, Kanji TEXT, Typ TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
 			""")
-		self.db_connection.commit()
+		self.__connection.commit()
 
+	def recreate(self):
+		"""
+		Recreate the database.
 
-	def create(self):
-		self.db_cursor.executescript("""
+		All data will be lost.
+		"""
+		self.__cursor.executescript("""
 			DROP TABLE IF EXISTS Vocabulary;
 			CREATE TABLE Vocabulary(Deutsch TEXT, Kana TEXT, Kanji TEXT, Typ TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
 			""")
-		self.db_connection.commit()
+		self.__connection.commit()
 
-	def getTimestampNow(self):
+	def __getTimestampNow(self):
+		"""
+		Get the timestamp of current time in seconds.
+
+		@return the timestamp in seconds
+		"""
 		current_time = datetime.datetime.now()
 
 		year   = current_time.year
@@ -47,7 +64,13 @@ class DBVoc:
 
 		return result
 
-	def getOffset(self, level):
+	def __getOffset(self, level):
+		"""
+		Get time-offset in seconds according to level of vocabulary.
+
+		@param level vocabulary-level
+		@return time-offset in seconds
+		"""
 		baseUnit = 24*60*60
 
 		if level <= 0:
@@ -65,76 +88,131 @@ class DBVoc:
 
 		return int(baseUnit * factor)
 
-	def getDelta(self, level):
-		maxDelta = int(self.getOffset(level) / 4)
+	def __getDelta(self, level):
+		"""
+		Get time-delta in seconds according to level of vocabulary.
+
+		@param level vocabulary-level
+		@return time-delta in seconds
+		"""
+
+		maxDelta = int(self.__getOffset(level) / 4)
 
 		return random.randint(-maxDelta, maxDelta)
 
-	def getTimestamp(self, level):
-		return self.getTimestampNow() + self.getOffset(level) + self.getDelta(level)
-		
+	def __getTimestamp(self, level):
+		"""
+		Get timestamp in seconds when vocabulary will be asked next according to level.
+
+		@param level vocabulary-level
+		@return timestamp in seconds
+		"""
+
+		return self.__getTimestampNow() + self.__getOffset(level) + self.__getDelta(level)
+	
+	def commitDB(self):
+		"""
+		Commit the database.
+		"""
+
+		self.__connection.commit()
+
 	def addVoc(self, data, commit=True):
-		timestamp = self.getTimestamp(0)
+		"""
+		Adds vocabulary-data to the database.
 
-		deutsch = data['Deutsch']
-		kana    = data['Kana']
-		kanji   = data['Kanji']
-		typ     = data['Typ']
-		info    = data['Info']
+		@param data vocabulary data as dictionary
+		@param commit If the database-action should be committed. If set to false, commit it yourself later.
+		"""
 
-		self.db_cursor.execute("""
+		timestamp = self.__getTimestamp(0)
+
+		deutsch  = data['Deutsch']
+		kana     = data['Kana']
+		kanji    = data['Kanji']
+		typ      = data['Typ']
+		info     = data['Info']
+
+		self.__cursor.execute("""
 			INSERT INTO Vocabulary VALUES(?, ?, ?, ?, ?, 0, ?);
 			""", (deutsch, kana, kanji, typ, info, timestamp))
 
 		if commit:
-			self.db_connection.commit()
+			self.__connection.commit()
 	
 	def updateLevel(self, data, level):
-		timestamp = self.getTimestamp(level)
+		"""
+		Update level and timestamp of given vocabulary.
 
-		deutsch = data['Deutsch']
-		kana    = data['Kana']
+		@param data vocabulary data as dictionary
+		@param level the new level
+		"""
 
-		self.db_cursor.execute("""
+		timestamp = self.__getTimestamp(level)
+
+		deutsch   = data['Deutsch']
+		kana      = data['Kana']
+
+		self.__cursor.execute("""
 			UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
 			""", (level, timestamp, deutsch, kana))
-		self.db_connection.commit()
+		self.__connection.commit()
 	
 	def modifyVoc(self, oldData, newData):
-		timestamp = self.getTimestamp(0)
+		"""
+		Modify the given vocabulary.
 
-		deutsch = oldData['Deutsch']
-		kana    = oldData['Kana']
+		@param oldData old vocabulary data
+		@param newData new vocabulary data
+		"""
 
-		deutsch_neu = newData['Deutsch']
-		kana_neu    = newData['Kana']
-		kanji_neu   = newData['Kanji']
-		typ_neu     = newData['Typ']
-		info_neu    = newData['Info']
+		timestamp   = self.__getTimestamp(0)
+
+		deutsch     = oldData['Deutsch']
+		kana        = oldData['Kana']
+
+		deutsch_new = newData['Deutsch']
+		kana_new    = newData['Kana']
+		kanji_new   = newData['Kanji']
+		typ_new     = newData['Typ']
+		info_new    = newData['Info']
 
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			UPDATE Vocabulary SET Deutsch=?, Kana=?, Kanji=?, Typ=?, Info=?, Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
-			""", (deutsch_neu, kana_neu, kanji_neu, typ_neu, info_neu, 0, timestamp, deutsch, kana))
-		self.db_connection.commit()
+			""", (deutsch_new, kana_new, kanji_new, typ_new, info_new, 0, timestamp, deutsch, kana))
+		self.__connection.commit()
 
 	def deleteVoc(self, data):
+		"""
+		Delete the given vocabulary.
+
+		@param data vocabulary data to delete
+		"""
+
 		deutsch = data['Deutsch']
 		kana    = data['Kana']
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			DELETE FROM Vocabulary WHERE Deutsch=? AND Kana=?;
 			""", (deutsch, kana))
-		self.db_connection.commit()
+		self.__connection.commit()
 
 	def getNext(self):
-		self.db_cursor.execute("""
+		"""
+		Get next vocabulary data.
+
+		@return vocabulary data as dictionary
+		"""
+
+		self.__cursor.execute("""
 			SELECT * FROM Vocabulary ORDER BY Timestamp;
 			""")
 
-		row = self.db_cursor.fetchone()
+		row = self.__cursor.fetchone()
 
 		result = {}
+
 		if row:
 			result['Deutsch'] = row[0]
 			result['Kana']    = row[1]
@@ -146,32 +224,46 @@ class DBVoc:
 		return result
 
 	def resetLevel(self):
-		self.db_cursor.execute("""
+		"""
+		Reset level and timestamp of all vocabulary.
+		"""
+
+		self.__cursor.execute("""
 			SELECT * FROM Vocabulary ORDER BY Timestamp;
 			""")
 
-		rows = self.db_cursor.fetchall()
+		rows = self.__cursor.fetchall()
 
 		if rows:
 			for row in rows:
-				timestamp = self.getTimestamp(0)
+				timestamp = self.__getTimestamp(0)
 				deutsch   = row[0]
 				kana      = row[1]
-				self.db_cursor.execute("""
+				self.__cursor.execute("""
 					UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
 					""", (0, timestamp, deutsch, kana))
 
-		self.db_connection.commit()
+		self.__connection.commit()
 
 	def hasVoc(self, data):
+		"""
+		Check, if vocabulary is already in the database.
+
+		Checks, whether there is a row in the database, where
+		'Deutsch' and 'Kana' have the same value as the given data
+
+		@param data the vocabulary data to check for
+		@return True if the database contains data equal to the given data
+		"""
+
 		deutsch = data['Deutsch']
 		kana    = data['Kana']
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			SELECT * FROM Vocabulary WHERE Deutsch=? AND Kana=?;
 			""", (deutsch, kana))
 
-		row = self.db_cursor.fetchall()
+		row = self.__cursor.fetchall()
 
 		if len(row) > 0:
 			return True
@@ -179,14 +271,22 @@ class DBVoc:
 			return False
 	
 	def searchVoc(self, data):
+		"""
+		Search vocabulary similar to any key of the given data.
+
+		@param data vocabulary data to search for
+		@return an array of data dictionaries
+		"""
+
 		result = []
+
 		for i_key in data:
 			if len(data[i_key]) > 0:
-				self.db_cursor.execute("""
+				self.__cursor.execute("""
 					SELECT * FROM Vocabulary WHERE %s LIKE ?;
 					""" % i_key, ('%' + data[i_key] + '%',))
 
-				rows = self.db_cursor.fetchall()
+				rows = self.__cursor.fetchall()
 
 				for i_row in rows:
 					entry = {}
@@ -203,13 +303,19 @@ class DBVoc:
 		return result
 
 	def getTypList(self):
+		"""
+		Returns a list of all different 'Typ'-values of the database.
+
+		@return all 'Typ'-values as array
+		"""
+
 		result = []
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			SELECT Typ FROM Vocabulary GROUP BY Typ;
 			""")
 
-		rows = self.db_cursor.fetchall()
+		rows = self.__cursor.fetchall()
 
 		for i_row in rows:
 			result.append(i_row[0])
@@ -217,13 +323,24 @@ class DBVoc:
 		return result
 
 	def exportToFile(self, filename):
+		"""
+		Export database to a file in ';'-separated csv-format.
+
+		Some patterns are substituted:
+		- Linebreaks by '\\n'
+		- Backslashes by '\\b'
+		- Semicolons by '\\s'
+
+		@param filename the name of the file to write into
+		"""
+
 		outFile = open(filename, 'w')
 
-		self.db_cursor.execute("""
+		self.__cursor.execute("""
 			SELECT Deutsch,Kana,Kanji,Typ,Info FROM Vocabulary;
 			""")
 
-		rows = self.db_cursor.fetchall()
+		rows = self.__cursor.fetchall()
 
 		for i_row in rows:
 			replacedLine = []
@@ -235,6 +352,16 @@ class DBVoc:
 			outFile.write(line)
 	
 	def importFromFile(self, filename):
+		"""
+		Import from a given ';'-separatedd csv-file to the database.
+
+		Patterns that are substituted during export are resubstituted.
+		Existing vocabulary with equal values in 'Deutsch' and 'Kana'
+		is not replaced.
+
+		@param filename the name  of the file to import from
+		"""
+
 		inFile = open(filename, 'r')
 
 		for i_line in inFile:
@@ -254,14 +381,33 @@ class DBVoc:
 			if not self.hasVoc(data):
 				self.addVoc(data, False)
 		
-		self.db_connection.commit()
-
+		self.__connection.commit()
 
 	def __exportString(self, string):
+		"""
+		Export the given string for a csv-file.
+
+		'\\' -> '\\b'
+		Linebreak -> '\\n'
+		';' -> '\\s'
+
+		@return the substituted string
+		"""
+
 		result = string.replace('\\','\\b').replace('\n','\\n').replace(';','\\s')
 		return result
 
 	def __importString(self, string):
+		"""
+		Import a given string from a csv-file
+
+		'\\b' -> '\\'
+		'\\n' -> Linebreak
+		'\\s' -> ';'
+
+		@return the resubstituted string
+		"""
+
 		result = string.replace('\n','').replace('\\s',';').replace('\\n','\n').replace('\\b','\\')
 		return result.decode('utf-8')
 

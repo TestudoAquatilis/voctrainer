@@ -6,70 +6,70 @@ import gtk
 from BorderBox import *
 
 class TabQuery:
-	def getNextVoc(self):
-		oldVoc = self.nextVoc
+	def __getNextVoc(self):
+		oldVoc = self.__nextVoc
 
-		self.nextVoc = self.db.getNext()
+		self.__nextVoc = self.__db.getNext()
 
-		if oldVoc != self.nextVoc:
-			self.setState('query')
+		if oldVoc != self.__nextVoc:
+			self.__setState('query')
 	
-	def query(self):
-		if len(self.nextVoc.keys()) < 5:
+	def __query(self):
+		if len(self.__nextVoc.keys()) < 5:
 			return
-		data = self.nextVoc.copy()
+		data = self.__nextVoc.copy()
 		data['Kana'] = ''
 		data['Kanji'] = ''
 		data['Info'] = ''
-		self.inOut.setData(data)
-		self.setState('query')
+		self.__inOut.setData(data)
+		self.__setState('query')
 
-	def solve(self):
-		if len(self.nextVoc.keys()) < 5:
+	def __solve(self):
+		if len(self.__nextVoc.keys()) < 5:
 			return
-		self.inOut.setData(self.nextVoc)
-		self.setState('solution')
+		self.__inOut.setData(self.__nextVoc)
+		self.__setState('solution')
 
-	def known(self):
-		if len(self.nextVoc.keys()) < 6:
+	def __known(self):
+		if len(self.__nextVoc.keys()) < 6:
 			return
-		self.db.updateLevel(self.nextVoc, self.nextVoc['Level']+1)
+		self.__db.updateLevel(self.__nextVoc, self.__nextVoc['Level']+1)
 
-	def notKnown(self):
-		if len(self.nextVoc.keys()) < 6:
+	def __notKnown(self):
+		if len(self.__nextVoc.keys()) < 6:
 			return
-		self.db.updateLevel(self.nextVoc, 0)
+		self.__db.updateLevel(self.__nextVoc, 0)
 
 	def __handlerNext(self, widget, data=None):
-		self.getNextVoc()
-		self.query()
+		self.__getNextVoc()
+		self.__query()
 
 	def __handlerSolve(self, widget, data=None):
-		self.solve()
+		self.__solve()
 
 	def __handlerKnown(self, widget, data=None):
-		self.known()
-		self.getNextVoc()
-		self.query()
+		self.__known()
+		self.__getNextVoc()
+		self.__query()
 	
 	def __handlerNotKnown(self, widget, data=None):
-		self.notKnown()
-		self.getNextVoc()
-		self.query()
+		self.__notKnown()
+		self.__getNextVoc()
+		self.__query()
 
 	def __handlerUpdate(self, widget, data=None):
-		entries = self.inOut.getData()
-		self.db.modifyVoc(self.nextVoc, entries)
+		entries = self.__inOut.getData()
+		self.__db.modifyVoc(self.__nextVoc, entries)
 	
 	def __handlerDelete(self, widget, data=None):
-		self.db.deleteVoc(self.nextVoc)
-		self.getNextVoc()
-		self.query()
+		self.__db.deleteVoc(self.__nextVoc)
+		self.__getNextVoc()
+		self.__query()
 
 	def __init__(self, db, inOut):
-		self.db    = db
-		self.inOut = inOut
-		self.state = 'query'
+		self.__db    = db
+		self.__inOut = inOut
+		self.__state = 'query'
 
 		borderBox  = BorderBox()
 
@@ -85,24 +85,24 @@ class TabQuery:
 		borderBox.setState('query')
 		borderBox.show()
 
-		self.box     = borderBox
+		self.__box     = borderBox
 
-		self.widget  = borderBox.getWidget()
+		self.__widget  = borderBox.getWidget()
 
-		self.nextVoc = db.getNext()
+		self.__nextVoc = db.getNext()
 		
 	def getWidget(self):
-		return self.widget
+		return self.__widget
 
 	def setActive(self):
-		self.inOut.setSensitive(True)
-		self.getNextVoc()
+		self.__inOut.setSensitive(True)
+		self.__getNextVoc()
 
-		if self.state == 'solution':
-			self.solve()
+		if self.__state == 'solution':
+			self.__solve()
 		else:
-			self.query()
+			self.__query()
 	
-	def setState(self, state):
-		self.state = state
-		self.box.setState(state)
+	def __setState(self, state):
+		self.__state = state
+		self.__box.setState(state)

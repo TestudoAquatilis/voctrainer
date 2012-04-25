@@ -20,7 +20,7 @@ class WindowMain:
 		gtk.mainquit()
 
 	def __handlerPageChanged(self, widget, page, page_num, data=None):
-		self.pages[page_num].setActive()
+		self.__pages[page_num].setActive()
 
 	def __init__(self, db):
 		"""
@@ -29,6 +29,7 @@ class WindowMain:
 		@param db The object, data is handled in as database.DBVoc
 		@see database.DBVoc.DBVoc
 		"""
+
 		db       = db
 		vocInOut = VocInOut()
 
@@ -51,7 +52,7 @@ class WindowMain:
 		pages[page2] = tabEdit
 		pages[page3] = tabDB
 
-		self.pages = pages
+		self.__pages = pages
 
 		notebook.set_current_page(page1)
 		tabQuery.setActive()

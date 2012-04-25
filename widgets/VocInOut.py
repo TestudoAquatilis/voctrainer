@@ -22,7 +22,7 @@ class VocInOut:
 	'Info':    <value>}@endcode
 	"""
 
-	class entryInOut:
+	class __entryInOut:
 		"""
 		Nested class for abstraction from gtk.Entry.
 		"""
@@ -31,9 +31,10 @@ class VocInOut:
 			"""
 			Constructor.
 
-			@param entry the @code gtk.Entry @endcode text is interchanged with
+			@param __entry the @code gtk.Entry @endcode text is interchanged with
 			"""
-			self.entry = entry
+
+			self.__entry = entry
 
 		def getText(self):
 			"""
@@ -41,7 +42,8 @@ class VocInOut:
 
 			@return The text of the Entry as string
 			"""
-			return self.entry.get_text().decode('utf-8')
+
+			return self.__entry.get_text().decode('utf-8')
 
 		def setText(self, text):
 			"""
@@ -49,7 +51,8 @@ class VocInOut:
 
 			@param text the text as string
 			"""
-			self.entry.set_text(text)
+
+			self.__entry.set_text(text)
 
 		def setSensitive(self, sensitivity):
 			"""
@@ -57,19 +60,22 @@ class VocInOut:
 
 			@param sensitivity sensitivity as boolean
 			"""
-			self.entry.set_sensitive(sensitivity)
+
+			self.__entry.set_sensitive(sensitivity)
 	
-	class textViewInOut:
+	class __textViewInOut:
 		"""
 		Nested class for abstraction from gtk.TextView.
 		"""
+
 		def __init__(self, textView):
 			"""
 			Constructor.
 
 			@param textView the @code gtk.TextView @endcode text is interchanged with
 			"""
-			self.textView = textView
+
+			self.__textView = textView
 
 		def getText(self):
 			"""
@@ -77,7 +83,8 @@ class VocInOut:
 
 			@return The text of the TextView
 			"""
-			return self.textView.get_buffer().get_text(self.textView.get_buffer().get_start_iter(), self.textView.get_buffer().get_end_iter()).decode('utf-8')
+
+			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter()).decode('utf-8')
 
 		def setText(self, text):
 			"""
@@ -85,7 +92,8 @@ class VocInOut:
 
 			@param text the text as string
 			"""
-			self.textView.get_buffer().set_text(text)
+
+			self.__textView.get_buffer().set_text(text)
 
 		def setSensitive(self, sensitivity):
 			"""
@@ -93,9 +101,14 @@ class VocInOut:
 
 			@param sensitivity the sensitivity as boolean
 			"""
-			self.textView.set_sensitive(sensitivity)
+
+			self.__textView.set_sensitive(sensitivity)
 
 	def __init__(self):
+		"""
+		Constructor.
+		"""
+
 		table = gtk.Table(2, 5, False)
 
 		fontKanji  = config.getFont('Kanji')
@@ -152,16 +165,16 @@ class VocInOut:
 
 		table.show()
 
-		self.widget = table
+		self.__widget = table
 
 		entries = {}
-		entries['Deutsch'] = self.entryInOut(entryDeutsch)
-		entries['Kana']    = self.entryInOut(entryKana)
-		entries['Kanji']   = self.entryInOut(entryKanji)
-		entries['Typ']     = self.entryInOut(entryTyp)
-		entries['Info']    = self.textViewInOut(entryInfo)
+		entries['Deutsch'] = self.__entryInOut(entryDeutsch)
+		entries['Kana']    = self.__entryInOut(entryKana)
+		entries['Kanji']   = self.__entryInOut(entryKanji)
+		entries['Typ']     = self.__entryInOut(entryTyp)
+		entries['Info']    = self.__textViewInOut(entryInfo)
 
-		self.entries = entries
+		self.__entries = entries
 
 	def getWidget(self):
 		"""
@@ -169,7 +182,8 @@ class VocInOut:
 
 		@return the @code gtk.Widget @endcode containing all the needed widgets
 		"""
-		return self.widget
+
+		return self.__widget
 
 	def getData(self):
 		"""
@@ -177,10 +191,11 @@ class VocInOut:
 
 		@return the data of the input fields as dictionary
 		"""
+
 		result = {}
 
-		for i_key in self.entries.keys():
-			result[i_key] = self.entries[i_key].getText()
+		for i_key in self.__entries.keys():
+			result[i_key] = self.__entries[i_key].getText()
 
 		return result
 	
@@ -190,17 +205,19 @@ class VocInOut:
 
 		@param data the data as dictionary
 		"""
-		for i_key in self.entries.keys():
+
+		for i_key in self.__entries.keys():
 			if i_key in data.keys():
-				self.entries[i_key].setText(data[i_key])
+				self.__entries[i_key].setText(data[i_key])
 			else:
-				self.entries[i_key].setText('')
+				self.__entries[i_key].setText('')
 	
 	def clearData(self):
 		"""
 		Resets the data of the input fields
 		"""
-		for i_val in self.entries.values():
+
+		for i_val in self.__entries.values():
 			i_val.setText('')
 	
 	def setSensitive(self, sensitivity):
@@ -209,5 +226,6 @@ class VocInOut:
 
 		@param sensitivity sensitivity as boolean
 		"""
-		for i_val in self.entries.values():
+
+		for i_val in self.__entries.values():
 			i_val.setSensitive(sensitivity)

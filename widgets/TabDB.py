@@ -7,7 +7,7 @@ from BorderBox import *
 
 class TabDB:
 	def __handlerResetLevel(self, widget, data=None):
-		self.db.resetLevel()
+		self.__db.resetLevel()
 	
 	def __handlerExportDB(self, widget, data=None):
 		dialog  = gtk.FileChooserDialog('Exportiere DB in Datei', None, gtk.FILE_CHOOSER_ACTION_SAVE, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -26,7 +26,7 @@ class TabDB:
 		filename = dialog.get_filename()
 		dialog.destroy()
 
-		self.db.exportToFile(filename)
+		self.__db.exportToFile(filename)
 	
 	def __handlerImportDB(self, widget, data=None):
 		dialog  = gtk.FileChooserDialog('Exportiere DB in Datei', None, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
@@ -45,11 +45,11 @@ class TabDB:
 		filename = dialog.get_filename()
 		dialog.destroy()
 
-		self.db.importFromFile(filename)
+		self.__db.importFromFile(filename)
 
 	def __init__(self, db, inOut):
-		self.db    = db
-		self.inOut = inOut
+		self.__db    = db
+		self.__inOut = inOut
 
 		borderBox  = BorderBox()
 
@@ -60,11 +60,11 @@ class TabDB:
 
 		borderBox.show()
 
-		self.widget = borderBox.getWidget()
+		self.__widget = borderBox.getWidget()
 	
 	def getWidget(self):
-		return self.widget
+		return self.__widget
 
 	def setActive(self):
-		self.inOut.clearData()
-		self.inOut.setSensitive(False)
+		self.__inOut.clearData()
+		self.__inOut.setSensitive(False)

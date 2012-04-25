@@ -7,29 +7,29 @@ from BorderBox import *
 
 class TabEdit:
 	def __handlerClear(self, widget, data=None):
-		self.inOut.clearData()
-		self.setState('new')
+		self.__inOut.clearData()
+		self.__setState('new')
 
 	def __handlerInsert(self, widget, data=None):
-		entries = self.inOut.getData()
+		entries = self.__inOut.getData()
 
 		if len(entries['Deutsch']) == 0 or len(entries['Kana']) == 0:
 			return
 
-		if self.db.hasVoc(entries):
+		if self.__db.hasVoc(entries):
 			dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, 'Vokabel existiert bereits!')
 			dialog.run()
 			dialog.destroy()
 			return
 
-		self.db.addVoc(entries)
-		self.inOut.clearData()
-		self.setState('new')
+		self.__db.addVoc(entries)
+		self.__inOut.clearData()
+		self.__setState('new')
 	
 	def __handlerSearch(self, widget, data=None):
-		searchResults      = self.db.searchVoc(self.inOut.getData())
-		self.searchResults = searchResults
-		comboBox           = self.searchResultBox
+		searchResults      = self.__db.searchVoc(self.__inOut.getData())
+		self.__searchResults = searchResults
+		comboBox           = self.__searchResultBox
 
 		comboBox.get_model().clear()
 
@@ -47,37 +47,37 @@ class TabEdit:
 		index = widget.get_active()
 
 		if index < 0:
-			self.currentVoc = None
-			self.inOut.clearData()
-			self.setState('new')
+			self.__currentVoc = None
+			self.__inOut.clearData()
+			self.__setState('new')
 		else:
-			self.currentVoc = self.searchResults[index]
-			self.inOut.setData(self.currentVoc)
-			self.setState('existing')
+			self.__currentVoc = self.__searchResults[index]
+			self.__inOut.setData(self.__currentVoc)
+			self.__setState('existing')
 	
 	def __handlerModify(self, widget, data=None):
-		if self.currentVoc:
-			entries = self.inOut.getData()
-			self.db.modifyVoc(self.currentVoc, entries)
+		if self.__currentVoc:
+			entries = self.__inOut.getData()
+			self.__db.modifyVoc(self.__currentVoc, entries)
 	
 	def __handlerDelete(self, widget, data=None):
-		if not self.currentVoc:
+		if not self.__currentVoc:
 			return
 
-		self.db.deleteVoc(self.currentVoc)
+		self.__db.deleteVoc(self.__currentVoc)
 
-		index = self.searchResultBox.get_active()
-		self.searchResults.pop(index)
-		self.searchResultBox.remove_text(index)
-		if len(self.searchResults) > 0:
-			self.searchResultBox.set_active(0)
+		index = self.__searchResultBox.get_active()
+		self.__searchResults.pop(index)
+		self.__searchResultBox.remove_text(index)
+		if len(self.__searchResults) > 0:
+			self.__searchResultBox.set_active(0)
 		else:
-			self.searchResultBox.set_active(-1)
+			self.__searchResultBox.set_active(-1)
 
 	def __init__(self, db, inOut):
-		self.db    = db
-		self.inOut = inOut
-		self.state = 'new'
+		self.__db    = db
+		self.__inOut = inOut
+		self.__state = 'new'
 
 		borderBox  = BorderBox()
 		comboBox   = gtk.combo_box_new_text()
@@ -97,23 +97,23 @@ class TabEdit:
 		borderBox.setState('new')
 		borderBox.show()
 		
-		self.box             = borderBox
-		self.searchResultBox = comboBox
-		self.widget          = borderBox.getWidget()
+		self.__box             = borderBox
+		self.__searchResultBox = comboBox
+		self.__widget          = borderBox.getWidget()
 
-		self.currentVoc      = None
-		self.searchResults   = []
+		self.__currentVoc      = None
+		self.__searchResults   = []
 
 	def getWidget(self):
-		return self.widget
+		return self.__widget
 
 	def setActive(self):
-		self.inOut.setSensitive(True)
-		if self.state == 'existing':
-			self.inOut.setData(self.currentVoc)
+		self.__inOut.setSensitive(True)
+		if self.__state == 'existing':
+			self.__inOut.setData(self.__currentVoc)
 		else:
-			self.inOut.clearData()
+			self.__inOut.clearData()
 
-	def setState(self, state):
-		self.state = state
-		self.box.setState(state)
+	def __setState(self, state):
+		self.__state = state
+		self.__box.setState(state)
