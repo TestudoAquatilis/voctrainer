@@ -28,6 +28,7 @@ class TabEdit:
 
 		self.__db.addVoc(entries)
 		self.__inOut.clearData()
+		self.__inOut.setTypList(self.__db.getTypList())
 		self.__setState('new')
 	
 	def __handlerSearch(self, widget, data=None):
@@ -63,6 +64,7 @@ class TabEdit:
 		if self.__currentVoc:
 			entries = self.__inOut.getData()
 			self.__db.modifyVoc(self.__currentVoc, entries)
+			self.__inOut.setTypList(self.__db.getTypList())
 	
 	def __handlerDelete(self, widget, data=None):
 		if not self.__currentVoc:

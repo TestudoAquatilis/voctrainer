@@ -50,6 +50,7 @@ class TabDB:
 		dialog.destroy()
 
 		self.__db.importFromFile(filename)
+		self.__inOut.setTypList(self.__db.getTypList())
 
 	def __init__(self, db, inOut):
 		"""

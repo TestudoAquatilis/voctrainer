@@ -31,7 +31,7 @@ class VocInOut:
 			"""
 			Constructor.
 
-			@param __entry the @code gtk.Entry @endcode text is interchanged with
+			@param entry the @code gtk.Entry @endcode text is interchanged with
 			"""
 
 			self.__entry = entry
@@ -63,6 +63,48 @@ class VocInOut:
 
 			self.__entry.set_sensitive(sensitivity)
 	
+	class __comboBoxEntryInOut:
+		"""
+		Nested class for abstraction from gtk.ComboBoxEntry.
+		"""
+
+		def __init__(self, cbxEntry):
+			"""
+			Constructor.
+
+			@param cbxentry the @code gtk.ComboBoxEntry @endcode text is interchanged with
+			"""
+
+			self.__cbxEntry = cbxEntry
+
+		def getText(self):
+			"""
+			Returns the text of the ComboBoxEntry.
+
+			@return the text of the ComboBoxEntry as string
+			"""
+
+			return self.__cbxEntry.get_child().get_text().decode('utf-8')
+
+		def setText(self, text):
+			"""
+			Sets the text of the ComboBoxEntry
+
+			@param text the text as string
+			"""
+
+			self.__cbxEntry.get_child().set_text(text)
+
+		def setSensitive(self, sensitivity):
+			"""
+			Sets the sensitivity of the ComboBoxEntry.
+
+			@param sensitivity sensitivity as boolean
+			"""
+
+			self.__cbxEntry.set_sensitive(sensitivity)
+
+
 	class __textViewInOut:
 		"""
 		Nested class for abstraction from gtk.TextView.
@@ -117,7 +159,8 @@ class VocInOut:
 		entryDeutsch = gtk.Entry()
 		entryKana    = gtk.Entry()
 		entryKanji   = gtk.Entry()
-		entryTyp     = gtk.Entry()
+		#entryTyp     = gtk.Entry()
+		entryTyp     = gtk.combo_box_entry_new_text()
 		entryInfo    = gtk.TextView()
 		
 		entryDeutsch.modify_font(fontMedium)
@@ -171,10 +214,12 @@ class VocInOut:
 		entries['Deutsch'] = self.__entryInOut(entryDeutsch)
 		entries['Kana']    = self.__entryInOut(entryKana)
 		entries['Kanji']   = self.__entryInOut(entryKanji)
-		entries['Typ']     = self.__entryInOut(entryTyp)
+		#entries['Typ']     = self.__entryInOut(entryTyp)
+		entries['Typ']     = self.__comboBoxEntryInOut(entryTyp)
 		entries['Info']    = self.__textViewInOut(entryInfo)
 
 		self.__entries = entries
+		self.__cbxTyp  = entryTyp
 
 	def getWidget(self):
 		"""
@@ -184,6 +229,21 @@ class VocInOut:
 		"""
 
 		return self.__widget
+
+	def setTypList(self, typList):
+		"""
+		Sets the 'Typ'-values to select from
+
+		@param typList array of 'Typ'-values as strings
+		"""
+
+		cbx   = self.__cbxTyp
+		model = cbx.get_model()
+
+		model.clear()
+
+		for i_typ in typList:
+			cbx.append_text(i_typ)
 
 	def getData(self):
 		"""

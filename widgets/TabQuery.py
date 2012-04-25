@@ -64,6 +64,7 @@ class TabQuery:
 	def __handlerUpdate(self, widget, data=None):
 		entries = self.__inOut.getData()
 		self.__db.modifyVoc(self.__nextVoc, entries)
+		self.__inOut.setTypList(self.__db.getTypList())
 	
 	def __handlerDelete(self, widget, data=None):
 		self.__db.deleteVoc(self.__nextVoc)

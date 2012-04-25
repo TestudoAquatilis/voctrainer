@@ -33,6 +33,8 @@ class WindowMain:
 		db       = db
 		vocInOut = VocInOut()
 
+		vocInOut.setTypList(db.getTypList())
+
 		window   = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		boxOuter = gtk.HBox(False, 4)
 		notebook = gtk.Notebook()
