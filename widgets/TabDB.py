@@ -6,6 +6,10 @@ import gtk
 from BorderBox import *
 
 class TabDB:
+	"""
+	Class containing widgets for general database operations.
+	"""
+
 	def __handlerResetLevel(self, widget, data=None):
 		self.__db.resetLevel()
 	
@@ -48,6 +52,13 @@ class TabDB:
 		self.__db.importFromFile(filename)
 
 	def __init__(self, db, inOut):
+		"""
+		Constructor.
+
+		@param db database to interact with
+		@param inOut VocInOut-widget to interact with
+		"""
+
 		self.__db    = db
 		self.__inOut = inOut
 
@@ -63,8 +74,18 @@ class TabDB:
 		self.__widget = borderBox.getWidget()
 	
 	def getWidget(self):
+		"""
+		Return the widget containing all widgets of this Tab
+
+		@return gtk.Widget containing all widgets of this Tab
+		"""
+
 		return self.__widget
 
 	def setActive(self):
+		"""
+		Call this function, if this Tab becomes active.
+		"""
+
 		self.__inOut.clearData()
 		self.__inOut.setSensitive(False)

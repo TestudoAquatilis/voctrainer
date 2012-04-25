@@ -6,6 +6,10 @@ import gtk
 from BorderBox import *
 
 class TabEdit:
+	"""
+	Class containing widgets for modifying vocabulary.
+	"""
+
 	def __handlerClear(self, widget, data=None):
 		self.__inOut.clearData()
 		self.__setState('new')
@@ -75,6 +79,13 @@ class TabEdit:
 			self.__searchResultBox.set_active(-1)
 
 	def __init__(self, db, inOut):
+		"""
+		Constructor.
+
+		@param db database to interact with
+		@param inOut VocInOut-widget to interact with
+		"""
+
 		self.__db    = db
 		self.__inOut = inOut
 		self.__state = 'new'
@@ -105,9 +116,19 @@ class TabEdit:
 		self.__searchResults   = []
 
 	def getWidget(self):
+		"""
+		Return the widget containing all widgets of this Tab
+
+		@return gtk.Widget containing all widgets of this Tab
+		"""
+
 		return self.__widget
 
 	def setActive(self):
+		"""
+		Call this function, if this Tab becomes active.
+		"""
+
 		self.__inOut.setSensitive(True)
 		if self.__state == 'existing':
 			self.__inOut.setData(self.__currentVoc)

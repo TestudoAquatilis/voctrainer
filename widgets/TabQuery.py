@@ -6,6 +6,10 @@ import gtk
 from BorderBox import *
 
 class TabQuery:
+	"""
+	Class containing widgets for querying.
+	"""
+
 	def __getNextVoc(self):
 		oldVoc = self.__nextVoc
 
@@ -67,6 +71,13 @@ class TabQuery:
 		self.__query()
 
 	def __init__(self, db, inOut):
+		"""
+		Constructor.
+
+		@param db database to interact with
+		@param inOut VocInOut-widget to interact with
+		"""
+
 		self.__db    = db
 		self.__inOut = inOut
 		self.__state = 'query'
@@ -92,9 +103,19 @@ class TabQuery:
 		self.__nextVoc = db.getNext()
 		
 	def getWidget(self):
+		"""
+		Return the widget containing all widgets of this Tab
+
+		@return gtk.Widget containing all widgets of this Tab
+		"""
+
 		return self.__widget
 
 	def setActive(self):
+		"""
+		Call this function, if this Tab becomes active.
+		"""
+
 		self.__inOut.setSensitive(True)
 		self.__getNextVoc()
 
