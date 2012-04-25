@@ -244,6 +244,6 @@ class DBVoc:
 		return result
 
 	def __importString(self, string):
-		result = string.replace('\\s',';').replace('\\n','\n').replace('\\b','\\')
+		result = string.replace('\n','').replace('\\s',';').replace('\\n','\n').replace('\\b','\\')
 		return result.decode('utf-8')
 
