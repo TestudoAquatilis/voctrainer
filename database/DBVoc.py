@@ -73,7 +73,7 @@ class DBVoc:
 	def getTimestamp(self, level):
 		return self.getTimestampNow() + self.getOffset(level) + self.getDelta(level)
 		
-	def addVoc(self, data):
+	def addVoc(self, data, commit=True):
 		timestamp = self.getTimestamp(0)
 
 		deutsch = data['Deutsch']
@@ -85,7 +85,9 @@ class DBVoc:
 		self.db_cursor.execute("""
 			INSERT INTO Vocabulary VALUES(?, ?, ?, ?, ?, 0, ?);
 			""", (deutsch, kana, kanji, typ, info, timestamp))
-		self.db_connection.commit()
+
+		if commit:
+			self.db_connection.commit()
 	
 	def updateLevel(self, data, level):
 		timestamp = self.getTimestamp(level)
@@ -236,7 +238,9 @@ class DBVoc:
 			data['Info']    = self.__importString(items[4])
 
 			if not self.hasVoc(data):
-				self.addVoc(data)
+				self.addVoc(data, False)
+		
+		self.db_connection.commit()
 
 
 	def __exportString(self, string):
