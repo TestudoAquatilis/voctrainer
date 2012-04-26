@@ -1,13 +1,12 @@
 #coding=utf8
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
 import config
 
-class VocInOut:
+class VocInOut(Gtk.Table):
 	"""
-	Class holding the gtk.Widgets for input and output.
+	Class holding the Gtk.Widgets for input and output.
 
 	Contains entries for the fields in the database and
 	functions for easily setting and getting the values
@@ -24,14 +23,14 @@ class VocInOut:
 
 	class __entryInOut:
 		"""
-		Nested class for abstraction from gtk.Entry.
+		Nested class for abstraction from Gtk.Entry.
 		"""
 
 		def __init__(self, entry):
 			"""
 			Constructor.
 
-			@param entry the @code gtk.Entry @endcode text is interchanged with
+			@param entry the @code Gtk.Entry @endcode text is interchanged with
 			"""
 
 			self.__entry = entry
@@ -65,14 +64,14 @@ class VocInOut:
 	
 	class __comboBoxEntryInOut:
 		"""
-		Nested class for abstraction from gtk.ComboBoxEntry.
+		Nested class for abstraction from Gtk.ComboBoxEntry.
 		"""
 
 		def __init__(self, cbxEntry):
 			"""
 			Constructor.
 
-			@param cbxentry the @code gtk.ComboBoxEntry @endcode text is interchanged with
+			@param cbxentry the @code Gtk.ComboBoxEntry @endcode text is interchanged with
 			"""
 
 			self.__cbxEntry = cbxEntry
@@ -107,14 +106,14 @@ class VocInOut:
 
 	class __textViewInOut:
 		"""
-		Nested class for abstraction from gtk.TextView.
+		Nested class for abstraction from Gtk.TextView.
 		"""
 
 		def __init__(self, textView):
 			"""
 			Constructor.
 
-			@param textView the @code gtk.TextView @endcode text is interchanged with
+			@param textView the @code Gtk.TextView @endcode text is interchanged with
 			"""
 
 			self.__textView = textView
@@ -126,7 +125,7 @@ class VocInOut:
 			@return The text of the TextView
 			"""
 
-			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter()).decode('utf-8')
+			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter(), False).decode('utf-8')
 
 		def setText(self, text):
 			"""
@@ -151,17 +150,17 @@ class VocInOut:
 		Constructor.
 		"""
 
-		table = gtk.Table(2, 5, False)
+		Gtk.Table.__init__(self, 2, 5, False)
 
 		fontKanji  = config.getFont('Kanji')
 		fontMedium = config.getFont('Medium')
 
-		entryDeutsch = gtk.Entry()
-		entryKana    = gtk.Entry()
-		entryKanji   = gtk.Entry()
-		#entryTyp     = gtk.Entry()
-		entryTyp     = gtk.combo_box_entry_new_text()
-		entryInfo    = gtk.TextView()
+		entryDeutsch = Gtk.Entry()
+		entryKana    = Gtk.Entry()
+		entryKanji   = Gtk.Entry()
+		#entryTyp     = Gtk.Entry()
+		entryTyp     = Gtk.ComboBoxText.new_with_entry()
+		entryInfo    = Gtk.TextView()
 		
 		entryDeutsch.modify_font(fontMedium)
 		entryKana.modify_font(fontMedium)
@@ -169,46 +168,30 @@ class VocInOut:
 		#entryTyp.modify_font(fontKanji)
 		entryInfo.modify_font(fontMedium)
 
-		labelDeutsch = gtk.Label('Deutsch:')
-		labelKana    = gtk.Label('Kana:')
-		labelKanji   = gtk.Label('Kanji:')
-		labelTyp     = gtk.Label('Typ:')
-		labelInfo    = gtk.Label('Info:')
+		labelDeutsch = Gtk.Label('Deutsch:')
+		labelKana    = Gtk.Label('Kana:')
+		labelKanji   = Gtk.Label('Kanji:')
+		labelTyp     = Gtk.Label('Typ:')
+		labelInfo    = Gtk.Label('Info:')
 
 		labelXOpt = 0
 		labelYOpt = 0
 
-		table.attach(labelDeutsch, 0, 1, 0, 1, labelXOpt, labelYOpt)
-		table.attach(labelKana,    0, 1, 1, 2, labelXOpt, labelYOpt)
-		table.attach(labelKanji,   0, 1, 2, 3, labelXOpt, labelYOpt)
-		table.attach(labelTyp,     0, 1, 3, 4, labelXOpt, labelYOpt)
-		table.attach(labelInfo,    0, 1, 4, 5, labelXOpt, labelYOpt)
+		self.attach(labelDeutsch, 0, 1, 0, 1, labelXOpt, labelYOpt)
+		self.attach(labelKana,    0, 1, 1, 2, labelXOpt, labelYOpt)
+		self.attach(labelKanji,   0, 1, 2, 3, labelXOpt, labelYOpt)
+		self.attach(labelTyp,     0, 1, 3, 4, labelXOpt, labelYOpt)
+		self.attach(labelInfo,    0, 1, 4, 5, labelXOpt, labelYOpt)
 
-		entryXOpt    = gtk.EXPAND|gtk.FILL
-		entryYOpt    = gtk.FILL
-		entryYOptExp = gtk.EXPAND|gtk.FILL
+		entryXOpt    = Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL
+		entryYOpt    = Gtk.AttachOptions.FILL
+		entryYOptExp = Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL
 
-		table.attach(entryDeutsch, 1, 2, 0, 1, entryXOpt, entryYOpt)
-		table.attach(entryKana,    1, 2, 1, 2, entryXOpt, entryYOpt)
-		table.attach(entryKanji,   1, 2, 2, 3, entryXOpt, entryYOpt)
-		table.attach(entryTyp,     1, 2, 3, 4, entryXOpt, entryYOpt)
-		table.attach(entryInfo,    1, 2, 4, 5, entryXOpt, entryYOptExp)
-
-		entryDeutsch.show()
-		entryKana.show()
-		entryKanji.show()
-		entryTyp.show()
-		entryInfo.show()
-
-		labelDeutsch.show()
-		labelKana.show()
-		labelKanji.show()
-		labelTyp.show()
-		labelInfo.show()
-
-		table.show()
-
-		self.__widget = table
+		self.attach(entryDeutsch, 1, 2, 0, 1, entryXOpt, entryYOpt)
+		self.attach(entryKana,    1, 2, 1, 2, entryXOpt, entryYOpt)
+		self.attach(entryKanji,   1, 2, 2, 3, entryXOpt, entryYOpt)
+		self.attach(entryTyp,     1, 2, 3, 4, entryXOpt, entryYOpt)
+		self.attach(entryInfo,    1, 2, 4, 5, entryXOpt, entryYOptExp)
 
 		entries = {}
 		entries['Deutsch'] = self.__entryInOut(entryDeutsch)
@@ -220,15 +203,6 @@ class VocInOut:
 
 		self.__entries = entries
 		self.__cbxTyp  = entryTyp
-
-	def getWidget(self):
-		"""
-		Returns the outer container widget.
-
-		@return the @code gtk.Widget @endcode containing all the needed widgets
-		"""
-
-		return self.__widget
 
 	def setTypList(self, typList):
 		"""

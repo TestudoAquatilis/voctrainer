@@ -1,4 +1,4 @@
-import pango
+from gi.repository import Pango
 
 __fonts = {
 		'Medium': '20',
@@ -22,7 +22,7 @@ def getFont(id):
 	if id in __fonts.keys():
 		desc = __fonts[id]
 	
-	return pango.FontDescription(desc)
+	return Pango.FontDescription(desc)
 
 def getFilename(id):
 	"""

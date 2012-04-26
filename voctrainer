@@ -1,15 +1,16 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
-import widgets.WindowMain
-import database.DBVoc
+import widgets
+import database
 import config
 
 if __name__ == "__main__":
 	db      = database.DBVoc(config.getFilename('Database'))
 	winMain = widgets.WindowMain(db)
 
-	gtk.mainloop()
+	winMain.show_all()
+
+	Gtk.mainloop()
 

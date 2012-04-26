@@ -1,11 +1,10 @@
 #coding=utf8
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
-from BorderBox import *
+from .BorderBox import *
 
-class TabQuery:
+class TabQuery(BorderBox):
 	"""
 	Class containing widgets for querying.
 	"""
@@ -79,39 +78,25 @@ class TabQuery:
 		@param inOut VocInOut-widget to interact with
 		"""
 
+		BorderBox.__init__(self)
+
 		self.__db    = db
 		self.__inOut = inOut
 		self.__state = 'query'
 
-		borderBox  = BorderBox()
+		self.addButton('Nächste',         self.__handlerNext)
+		self.addSeparator()
+		self.addButton('_Lösen',          self.__handlerSolve,    ['query'])
+		self.addButton('_Gewusst',        self.__handlerKnown,    ['solution'])
+		self.addButton('_Nicht gewusst',  self.__handlerNotKnown, ['solution'])
+		self.addSeparator()
+		self.addButton('Vokabel Ändern',  self.__handlerUpdate,   ['solution'])
+		self.addButton('Vokabel Löschen', self.__handlerDelete,   ['solution'])
 
-		borderBox.addButton('Nächste',         self.__handlerNext)
-		borderBox.addSeparator()
-		borderBox.addButton('_Lösen',          self.__handlerSolve,    ['query'])
-		borderBox.addButton('_Gewusst',        self.__handlerKnown,    ['solution'])
-		borderBox.addButton('_Nicht gewusst',  self.__handlerNotKnown, ['solution'])
-		borderBox.addSeparator()
-		borderBox.addButton('Vokabel Ändern',  self.__handlerUpdate,   ['solution'])
-		borderBox.addButton('Vokabel Löschen', self.__handlerDelete,   ['solution'])
-
-		borderBox.setState('query')
-		borderBox.show()
-
-		self.__box     = borderBox
-
-		self.__widget  = borderBox.getWidget()
+		self.setState('query')
 
 		self.__nextVoc = db.getNext()
 		
-	def getWidget(self):
-		"""
-		Return the widget containing all widgets of this Tab
-
-		@return gtk.Widget containing all widgets of this Tab
-		"""
-
-		return self.__widget
-
 	def setActive(self):
 		"""
 		Call this function, if this Tab becomes active.
@@ -127,4 +112,4 @@ class TabQuery:
 	
 	def __setState(self, state):
 		self.__state = state
-		self.__box.setState(state)
+		self.setState(state)

@@ -1,11 +1,10 @@
 #coding=utf8
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
-from BorderBox import *
+from .BorderBox import *
 
-class TabDB:
+class TabDB(BorderBox):
 	"""
 	Class containing widgets for general database operations.
 	"""
@@ -60,28 +59,15 @@ class TabDB:
 		@param inOut VocInOut-widget to interact with
 		"""
 
+		BorderBox.__init__(self)
+
 		self.__db    = db
 		self.__inOut = inOut
 
-		borderBox  = BorderBox()
-
-		borderBox.addButton('Fortschritt zurücksetzen', self.__handlerResetLevel)
-		borderBox.addSeparator()
-		borderBox.addButton('Datenbank exportieren',    self.__handlerExportDB)
-		borderBox.addButton('Datenbank importieren',    self.__handlerImportDB)
-
-		borderBox.show()
-
-		self.__widget = borderBox.getWidget()
-	
-	def getWidget(self):
-		"""
-		Return the widget containing all widgets of this Tab
-
-		@return gtk.Widget containing all widgets of this Tab
-		"""
-
-		return self.__widget
+		self.addButton('Fortschritt zurücksetzen', self.__handlerResetLevel)
+		self.addSeparator()
+		self.addButton('Datenbank exportieren',    self.__handlerExportDB)
+		self.addButton('Datenbank importieren',    self.__handlerImportDB)
 
 	def setActive(self):
 		"""

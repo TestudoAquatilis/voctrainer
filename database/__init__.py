@@ -1,3 +1,3 @@
-from DBVoc import *
+from .DBVoc import *
 
 __all__ = ["DBVoc"]

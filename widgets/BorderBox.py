@@ -1,9 +1,8 @@
 #coding=utf8
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
-class BorderBox:
+class BorderBox(Gtk.Box):
 	"""
 	A box containing control widgets.
 
@@ -15,7 +14,7 @@ class BorderBox:
 		Constructor.
 		"""
 
-		self.__boxButtons      = gtk.VBox(False,4)
+		Gtk.Box(self, orientation=Gtk.Orientation.VERTICAL)
 
 		self.__stateDependant  = []
 		self.__stateAssignment = {}
@@ -25,17 +24,15 @@ class BorderBox:
 		Add a button to the BorderBox.
 
 		@param caption caption of the button to add
-		@param handler gtk-handler to call when button is clicked
+		@param handler Gtk-handler to call when button is clicked
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
 		"""
 
-		button = gtk.Button(caption)
+		button = Gtk.Button(caption)
 
-		self.__boxButtons.pack_start(button, False, False, 0)
+		self.pack_start(button, False, False, 0)
 
 		button.connect('clicked', handler)
-
-		button.show()
 
 		self.__addToStates(button, states)
 	
@@ -44,23 +41,19 @@ class BorderBox:
 		Add a separator to the BorderBox.
 		"""
 
-		separator = gtk.HSeparator()
+		separator = Gtk.HSeparator()
 		
-		self.__boxButtons.pack_start(separator, False, False, 0)
+		self.pack_start(separator, False, False, 0)
 
-		separator.show()
-	
 	def addWidget(self, widget, states = None):
 		"""
-		Add a given gtk.Widget to the BorderBox.
+		Add a given Gtk.Widget to the BorderBox.
 
 		@param widget the widget to add
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
 		"""
 
-		self.__boxButtons.pack_start(widget, False, False, 0)
-
-		widget.show()
+		self.pack_start(widget, False, False, 0)
 
 		self.__addToStates(widget, states)
 	
@@ -71,33 +64,17 @@ class BorderBox:
 		@param caption the caption of the label to add
 		"""
 
-		label = gtk.Label(caption)
+		label = Gtk.Label(caption)
 
-		self.__boxButtons.pack_start(label, False, False, 0)
+		self.pack_start(label, False, False, 0)
 
 		label.show()
-	
-	def show(self):
-		"""
-		Make the BorderBox visible.
-		"""
-
-		self.__boxButtons.show()
-	
-	def getWidget(self):
-		"""
-		Get the gtk.Widget defining the BorderBox.
-
-		@returns the gtk.Widget defining the BorderBox
-		"""
-
-		return self.__boxButtons
 
 	def __addToStates(self, widget, states):
 		"""
 		The given widget should be made sensitive in the given states.
 
-		@param widget the gtk.Widget to add
+		@param widget the Gtk.Widget to add
 		@param states the list of statenames, the widget should be sensitive in or None for always sensitive
 		"""
 

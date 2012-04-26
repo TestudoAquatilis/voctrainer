@@ -1,11 +1,10 @@
 #coding=utf8
 
-import pygtk
-import gtk
+from gi.repository import Gtk
 
-from BorderBox import *
+from .BorderBox import *
 
-class TabEdit:
+class TabEdit(BorderBox):
 	"""
 	Class containing widgets for modifying vocabulary.
 	"""
@@ -88,43 +87,31 @@ class TabEdit:
 		@param inOut VocInOut-widget to interact with
 		"""
 
+		BorderBox.__init__(self)
+
 		self.__db    = db
 		self.__inOut = inOut
 		self.__state = 'new'
 
-		borderBox  = BorderBox()
-		comboBox   = gtk.combo_box_new_text()
+		comboBox   = gtk.ComboBoxText.new_with_model()
 
 		comboBox.connect('changed', self.__handlerCBXResultChanged)
 
-		borderBox.addButton('Eingabefelder leeren', self.__handlerClear)
-		borderBox.addSeparator()
-		borderBox.addButton('_Suchen',              self.__handlerSearch, ['new'])
-		borderBox.addWidget(comboBox,                                   ['existing'])
-		borderBox.addSeparator()
-		borderBox.addButton('Vokabel _Einfügen',    self.__handlerInsert, ['new'])
-		borderBox.addButton('Vokabel Ändern',       self.__handlerModify, ['existing'])
-		borderBox.addButton('Vokabel Löschen',      self.__handlerDelete, ['existing'])
+		self.addButton('Eingabefelder leeren', self.__handlerClear)
+		self.addSeparator()
+		self.addButton('_Suchen',              self.__handlerSearch, ['new'])
+		self.addWidget(comboBox,                                   ['existing'])
+		self.addSeparator()
+		self.addButton('Vokabel _Einfügen',    self.__handlerInsert, ['new'])
+		self.addButton('Vokabel Ändern',       self.__handlerModify, ['existing'])
+		self.addButton('Vokabel Löschen',      self.__handlerDelete, ['existing'])
 
-		comboBox.show()
 		borderBox.setState('new')
-		borderBox.show()
 		
-		self.__box             = borderBox
 		self.__searchResultBox = comboBox
-		self.__widget          = borderBox.getWidget()
 
 		self.__currentVoc      = None
 		self.__searchResults   = []
-
-	def getWidget(self):
-		"""
-		Return the widget containing all widgets of this Tab
-
-		@return gtk.Widget containing all widgets of this Tab
-		"""
-
-		return self.__widget
 
 	def setActive(self):
 		"""
@@ -139,4 +126,4 @@ class TabEdit:
 
 	def __setState(self, state):
 		self.__state = state
-		self.__box.setState(state)
+		self.setState(state)
