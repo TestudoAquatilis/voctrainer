@@ -1,0 +1,6 @@
+A vocabulary trainer developed for querying german-japanese
+vocabulary.
+
+It now uses gtk3 and sqlite.
+To run it, you should need python (2 or 3),
+python-gobject, gtk and sqlite.
