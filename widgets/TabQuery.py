@@ -25,12 +25,14 @@ class TabQuery(BorderBox):
 		data['Kanji'] = ''
 		data['Info'] = ''
 		self.__inOut.setData(data)
+		self.__inOut.setState('locked')
 		self.__setState('query')
 
 	def __solve(self):
 		if len(self.__nextVoc.keys()) < 5:
 			return
 		self.__inOut.setData(self.__nextVoc)
+		self.__inOut.setState('enabled')
 		self.__setState('solution')
 
 	def __known(self):
@@ -102,7 +104,6 @@ class TabQuery(BorderBox):
 		Call this function, if this Tab becomes active.
 		"""
 
-		self.__inOut.setSensitive(True)
 		self.__getNextVoc()
 
 		if self.__state == 'solution':

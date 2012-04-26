@@ -75,4 +75,4 @@ class TabDB(BorderBox):
 		"""
 
 		self.__inOut.clearData()
-		self.__inOut.setSensitive(False)
+		self.__inOut.setState('disabled')

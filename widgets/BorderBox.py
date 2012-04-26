@@ -28,7 +28,7 @@ class BorderBox(Gtk.Box):
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
 		"""
 
-		button = Gtk.Button(caption)
+		button = Gtk.Button(caption, use_underline=True)
 
 		self.pack_start(button, False, False, 0)
 

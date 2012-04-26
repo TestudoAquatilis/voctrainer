@@ -76,7 +76,6 @@ class TabEdit(BorderBox):
 
 		index = comboBox.get_active()
 		searchResults.pop(index)
-		#comboBox.remove_text(index)
 
 		comboBox.get_model().clear()
 
@@ -128,7 +127,8 @@ class TabEdit(BorderBox):
 		Call this function, if this Tab becomes active.
 		"""
 
-		self.__inOut.setSensitive(True)
+		self.__inOut.setState('enabled')
+
 		if self.__state == 'existing':
 			self.__inOut.setData(self.__currentVoc)
 		else:

@@ -42,7 +42,7 @@ class VocInOut(Gtk.Table):
 			@return The text of the Entry as string
 			"""
 
-			return self.__entry.get_text() #.decode('utf-8')
+			return self.__entry.get_text()
 
 		def setText(self, text):
 			"""
@@ -61,6 +61,15 @@ class VocInOut(Gtk.Table):
 			"""
 
 			self.__entry.set_sensitive(sensitivity)
+
+		def setEditable(self, editability):
+			"""
+			Sets the editability of the Entry.
+
+			@param editability editability as boolean
+			"""
+
+			self.__entry.set_editable(editability)
 	
 	class __comboBoxEntryInOut:
 		"""
@@ -83,7 +92,7 @@ class VocInOut(Gtk.Table):
 			@return the text of the ComboBoxEntry as string
 			"""
 
-			return self.__cbxEntry.get_child().get_text() #.decode('utf-8')
+			return self.__cbxEntry.get_child().get_text()
 
 		def setText(self, text):
 			"""
@@ -103,6 +112,14 @@ class VocInOut(Gtk.Table):
 
 			self.__cbxEntry.set_sensitive(sensitivity)
 
+		def setEditable(self, editability):
+			"""
+			Sets the editability of the ComboBoxEntry.
+
+			@param editability editability as boolean
+			"""
+
+			self.__cbxEntry.get_child().set_editable(editability)
 
 	class __textViewInOut:
 		"""
@@ -125,7 +142,7 @@ class VocInOut(Gtk.Table):
 			@return The text of the TextView
 			"""
 
-			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter(), False) #.decode('utf-8')
+			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter(), False)
 
 		def setText(self, text):
 			"""
@@ -145,6 +162,16 @@ class VocInOut(Gtk.Table):
 
 			self.__textView.set_sensitive(sensitivity)
 
+		def setEditable(self, editability):
+			"""
+			Sets the editability of the TextView.
+
+			@param editability editability as boolean
+			"""
+
+			self.__textView.set_editable(editability)
+			self.__textView.set_cursor_visible(editability)
+
 	def __init__(self):
 		"""
 		Constructor.
@@ -158,7 +185,6 @@ class VocInOut(Gtk.Table):
 		entryDeutsch = Gtk.Entry()
 		entryKana    = Gtk.Entry()
 		entryKanji   = Gtk.Entry()
-		#entryTyp     = Gtk.Entry()
 		entryTyp     = Gtk.ComboBoxText.new_with_entry()
 		entryInfo    = Gtk.TextView()
 		
@@ -197,7 +223,6 @@ class VocInOut(Gtk.Table):
 		entries['Deutsch'] = self.__entryInOut(entryDeutsch)
 		entries['Kana']    = self.__entryInOut(entryKana)
 		entries['Kanji']   = self.__entryInOut(entryKanji)
-		#entries['Typ']     = self.__entryInOut(entryTyp)
 		entries['Typ']     = self.__comboBoxEntryInOut(entryTyp)
 		entries['Info']    = self.__textViewInOut(entryInfo)
 
@@ -263,3 +288,24 @@ class VocInOut(Gtk.Table):
 
 		for i_val in self.__entries.values():
 			i_val.setSensitive(sensitivity)
+	
+	def setState(self, state):
+		"""
+		Sets the input field state.
+
+		@param state one of 'enabled', 'locked', 'disabled'
+		"""
+
+		if state == 'enabled':
+			editable  = True
+			sensitive = True
+		elif state == 'locked':
+			editable  = False
+			sensitive = True
+		else:
+			editable  = False
+			sensitive = False
+
+		for i_val in self.__entries.values():
+			i_val.setSensitive(sensitive)
+			i_val.setEditable (editable)
