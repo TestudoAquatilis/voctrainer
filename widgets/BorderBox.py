@@ -14,7 +14,7 @@ class BorderBox(Gtk.Box):
 		Constructor.
 		"""
 
-		Gtk.Box(self, orientation=Gtk.Orientation.VERTICAL)
+		Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL, spacing=4)
 
 		self.__stateDependant  = []
 		self.__stateAssignment = {}

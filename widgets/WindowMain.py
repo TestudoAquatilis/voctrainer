@@ -16,7 +16,7 @@ class WindowMain(Gtk.Window):
 	"""
 
 	def __handlerDestroy(self, widget, data=None):
-		Gtk.mainquit()
+		Gtk.main_quit()
 
 	def __handlerPageChanged(self, widget, page, page_num, data=None):
 		self.__pages[page_num].setActive()
@@ -45,9 +45,9 @@ class WindowMain(Gtk.Window):
 
 		pages = {}
 
-		page1 = notebook.append_page(tabQuery.getWidget(), Gtk.Label('Abfrage'))
-		page2 = notebook.append_page(tabEdit.getWidget(),  Gtk.Label('Vokabeln'))
-		page3 = notebook.append_page(tabDB.getWidget(),    Gtk.Label('DB'))
+		page1 = notebook.append_page(tabQuery, Gtk.Label('Abfrage'))
+		page2 = notebook.append_page(tabEdit,  Gtk.Label('Vokabeln'))
+		page3 = notebook.append_page(tabDB,    Gtk.Label('DB'))
 
 		pages[page1] = tabQuery
 		pages[page2] = tabEdit
@@ -58,8 +58,8 @@ class WindowMain(Gtk.Window):
 		notebook.set_current_page(page1)
 		tabQuery.setActive()
 
-		boxOuter.pack_start(vocInOut.getWidget(), True,  True,  0)
-		boxOuter.pack_start(notebook,             False, False, 0)
+		boxOuter.pack_start(vocInOut, True,  True,  0)
+		boxOuter.pack_start(notebook, False, False, 0)
 
 		self.add(boxOuter)
 
@@ -67,5 +67,4 @@ class WindowMain(Gtk.Window):
 		notebook.connect('switch-page',self.__handlerPageChanged)
 
 		(winWidth, winHeight) = self.get_size()
-		self.resize(winWidth + 150, winHeight + 150)
-
+		self.resize(winWidth + 250, winHeight + 75)

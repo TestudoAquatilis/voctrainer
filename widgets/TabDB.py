@@ -13,8 +13,8 @@ class TabDB(BorderBox):
 		self.__db.resetLevel()
 	
 	def __handlerExportDB(self, widget, data=None):
-		dialog  = gtk.FileChooserDialog('Exportiere DB in Datei', None, gtk.FILE_CHOOSER_ACTION_SAVE, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		ffilter = gtk.FileFilter()
+		dialog  = Gtk.FileChooserDialog('Exportiere DB in Datei', None, Gtk.FILE_CHOOSER_ACTION_SAVE, (Gtk.STOCK_CANCEL, Gtk.RESPONSE_CANCEL, Gtk.STOCK_OPEN, Gtk.RESPONSE_OK))
+		ffilter = Gtk.FileFilter()
 		ffilter.set_name('CSV-Datei')
 		ffilter.add_pattern('*.csv')
 		dialog.set_filter(ffilter)
@@ -22,7 +22,7 @@ class TabDB(BorderBox):
 
 		response = dialog.run()
 
-		if response != gtk.RESPONSE_OK:
+		if response != Gtk.RESPONSE_OK:
 			dialog.destroy()
 			return
 
@@ -32,8 +32,8 @@ class TabDB(BorderBox):
 		self.__db.exportToFile(filename)
 	
 	def __handlerImportDB(self, widget, data=None):
-		dialog  = gtk.FileChooserDialog('Exportiere DB in Datei', None, gtk.FILE_CHOOSER_ACTION_OPEN, (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		ffilter = gtk.FileFilter()
+		dialog  = Gtk.FileChooserDialog('Exportiere DB in Datei', None, Gtk.FILE_CHOOSER_ACTION_OPEN, (Gtk.STOCK_CANCEL, Gtk.RESPONSE_CANCEL, Gtk.STOCK_OPEN, Gtk.RESPONSE_OK))
+		ffilter = Gtk.FileFilter()
 		ffilter.set_name('CSV-Datei')
 		ffilter.add_pattern('*.csv')
 		dialog.set_filter(ffilter)
@@ -41,7 +41,7 @@ class TabDB(BorderBox):
 
 		response = dialog.run()
 
-		if response != gtk.RESPONSE_OK:
+		if response != Gtk.RESPONSE_OK:
 			dialog.destroy()
 			return
 

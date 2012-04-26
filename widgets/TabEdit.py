@@ -20,7 +20,7 @@ class TabEdit(BorderBox):
 			return
 
 		if self.__db.hasVoc(entries):
-			dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, 'Vokabel existiert bereits!')
+			dialog = Gtk.MessageDialog(None, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, 'Vokabel existiert bereits!')
 			dialog.run()
 			dialog.destroy()
 			return
@@ -66,18 +66,28 @@ class TabEdit(BorderBox):
 			self.__inOut.setTypList(self.__db.getTypList())
 	
 	def __handlerDelete(self, widget, data=None):
+		searchResults = self.__searchResults
+		comboBox      = self.__searchResultBox
+
 		if not self.__currentVoc:
 			return
 
 		self.__db.deleteVoc(self.__currentVoc)
 
-		index = self.__searchResultBox.get_active()
-		self.__searchResults.pop(index)
-		self.__searchResultBox.remove_text(index)
-		if len(self.__searchResults) > 0:
-			self.__searchResultBox.set_active(0)
+		index = comboBox.get_active()
+		searchResults.pop(index)
+		#comboBox.remove_text(index)
+
+		comboBox.get_model().clear()
+
+		for i_result in searchResults:
+			text = i_result['Deutsch'] + ' - ' + i_result['Kana']
+			comboBox.append_text(text)
+
+		if len(searchResults) > 0:
+			comboBox.set_active(0)
 		else:
-			self.__searchResultBox.set_active(-1)
+			comboBox.set_active(-1)
 
 	def __init__(self, db, inOut):
 		"""
@@ -93,7 +103,7 @@ class TabEdit(BorderBox):
 		self.__inOut = inOut
 		self.__state = 'new'
 
-		comboBox   = gtk.ComboBoxText.new_with_model()
+		comboBox   = Gtk.ComboBoxText()
 
 		comboBox.connect('changed', self.__handlerCBXResultChanged)
 
@@ -106,7 +116,7 @@ class TabEdit(BorderBox):
 		self.addButton('Vokabel Ändern',       self.__handlerModify, ['existing'])
 		self.addButton('Vokabel Löschen',      self.__handlerDelete, ['existing'])
 
-		borderBox.setState('new')
+		self.setState('new')
 		
 		self.__searchResultBox = comboBox
 

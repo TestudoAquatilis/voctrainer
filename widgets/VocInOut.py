@@ -42,7 +42,7 @@ class VocInOut(Gtk.Table):
 			@return The text of the Entry as string
 			"""
 
-			return self.__entry.get_text().decode('utf-8')
+			return self.__entry.get_text() #.decode('utf-8')
 
 		def setText(self, text):
 			"""
@@ -83,7 +83,7 @@ class VocInOut(Gtk.Table):
 			@return the text of the ComboBoxEntry as string
 			"""
 
-			return self.__cbxEntry.get_child().get_text().decode('utf-8')
+			return self.__cbxEntry.get_child().get_text() #.decode('utf-8')
 
 		def setText(self, text):
 			"""
@@ -125,7 +125,7 @@ class VocInOut(Gtk.Table):
 			@return The text of the TextView
 			"""
 
-			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter(), False).decode('utf-8')
+			return self.__textView.get_buffer().get_text(self.__textView.get_buffer().get_start_iter(), self.__textView.get_buffer().get_end_iter(), False) #.decode('utf-8')
 
 		def setText(self, text):
 			"""

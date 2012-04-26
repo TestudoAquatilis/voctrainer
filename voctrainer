@@ -12,5 +12,5 @@ if __name__ == "__main__":
 
 	winMain.show_all()
 
-	Gtk.mainloop()
+	Gtk.main()
 
