@@ -409,5 +409,5 @@ class DBVoc:
 		"""
 
 		result = string.replace('\n','').replace('\\s',';').replace('\\n','\n').replace('\\b','\\')
-		return result.decode('utf-8')
+		return result
 
