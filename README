@@ -2,5 +2,11 @@ A vocabulary trainer developed for querying german-japanese
 vocabulary.
 
 It now uses gtk3 and sqlite.
-To run it, you should need python (2 or 3),
+To run it, you need python 3,
 python-gobject, gtk and sqlite.
+
+Any configuration (especially paths, fonts and strings)
+can be modified in config/config.py ...
+The database has to be newly created to make
+changes in the 'DB...'-Strings effective.
+
