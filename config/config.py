@@ -14,7 +14,7 @@ __filenames = {
 __displayStrings = {
 		# Database
 		'DBLang1'  : 'Deutsch',
-		'DBLang2'  : 'Kanabla',
+		'DBLang2'  : 'Kana',
 		'DBSpecial': 'Kanji',
 		'DBType'   : 'Typ',
 		'DBInfo'   : 'Info',
