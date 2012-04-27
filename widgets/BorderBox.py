@@ -19,13 +19,14 @@ class BorderBox(Gtk.Box):
 		self.__stateDependant  = []
 		self.__stateAssignment = {}
 	
-	def addButton(self, caption, handler, states=None):
+	def addButton(self, caption, handler, states=None, toolTip=None):
 		"""
 		Add a button to the BorderBox.
 
 		@param caption caption of the button to add
 		@param handler Gtk-handler to call when button is clicked
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
+		@param toolTip tool tip for the newly created button
 		"""
 
 		button = Gtk.Button(caption, use_underline=True)
@@ -33,6 +34,9 @@ class BorderBox(Gtk.Box):
 		self.pack_start(button, False, False, 0)
 
 		button.connect('clicked', handler)
+
+		if toolTip:
+			button.set_tooltip_text(toolTip)
 
 		self.__addToStates(button, states)
 	
