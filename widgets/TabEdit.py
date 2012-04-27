@@ -109,7 +109,7 @@ class TabEdit(BorderBox):
 		self.addButton('TEditClear',  self.__handlerClear)
 		self.addSeparator()
 		self.addButton('TEditSearch', self.__handlerSearch, ['new'])
-		self.addWidget(comboBox,                            ['existing'])
+		self.addWidget(comboBox,                            ['existing'], 'TEditSearchResults')
 		self.addSeparator()
 		self.addButton('TEditInsert', self.__handlerInsert, ['new'])
 		self.addButton('TEditModify', self.__handlerModify, ['existing'])

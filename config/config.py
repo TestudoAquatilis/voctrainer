@@ -47,7 +47,24 @@ __displayStrings = {
 	}
 
 __tooltipStrings = {
-
+		# TabQuery
+		'TQueryNext'     : 'Zeige die nächste Vokabel.',
+		'TQuerySolve'    : 'Zeige die Lösung.',
+		'TQueryKnown'    : 'Vokabel gewusst...\nerst nach längerer Zeit wieder abfragen.',
+		'TQueryNotKnown' : 'Vokabel nicht gewusst...\nrelativ früh wieder abfragen.',
+		'TQueryModify'   : 'Modifizierte Vokabel in die Datenbank übernehmen.',
+		'TQueryDelete'   : 'Löscht die Vokabel unwiderruflich aus der Datenbank!',
+		# TabEdit
+		'TEditClear'         : 'Leert die Eingabefelder, damit eine neue Vokabel eingegeben werden kann.',
+		'TEditSearch'        : 'Sucht nach Vokabeln, die einen der eingegebenen Texte enthalten.',
+		'TEditSearchResults' : 'Liste der Suchergebnisse.',
+		'TEditInsert'        : 'Fügt die Vokabel in die Datenbank ein.',
+		'TEditModify'        : 'Übernimmt die Veränderungen in die Datenbank.',
+		'TEditDelete'        : 'Löscht die Vokabel unwiderruflich aus der Datenbank!',
+		# TabDB
+		'TDBReset'  : 'Setzt jeglichen gespeicherten Lernfortschritt zurück!\nAlle Vokabeln werden wie neu behandelt.\nDieser Schritt ist unwiderruflich!!!',
+		'TDBExport' : 'Exportiert die Datenbank in eine CSV-Datei.',
+		'TDBImport' : 'Importiert Datenbankeinträge aus einer CSV-Datei',
 	}
 
 def getFont(id):

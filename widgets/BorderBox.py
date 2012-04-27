@@ -53,7 +53,7 @@ class BorderBox(Gtk.Box):
 		
 		self.pack_start(separator, False, False, 0)
 
-	def addWidget(self, widget, states = None):
+	def addWidget(self, widget, states = None, toolTipId=None):
 		"""
 		Add a given Gtk.Widget to the BorderBox.
 
@@ -61,7 +61,12 @@ class BorderBox(Gtk.Box):
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
 		"""
 
+		toolTip = config.getTooltipString(toolTipId)
+
 		self.pack_start(widget, False, False, 0)
+
+		if toolTip:
+			widget.set_tooltip_text(toolTip)
 
 		self.__addToStates(widget, states)
 	
