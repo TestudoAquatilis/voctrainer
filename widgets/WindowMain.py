@@ -2,11 +2,12 @@
 
 from gi.repository import Gtk
 
-from . import *
 from .VocInOut import *
 from .TabEdit import *
 from .TabQuery import *
 from .TabDB import *
+
+import config
 
 class WindowMain(Gtk.Window):
 	"""
@@ -29,12 +30,18 @@ class WindowMain(Gtk.Window):
 		@see database.DBVoc.DBVoc
 		"""
 
-		Gtk.Window.__init__(self, title='Vokabeltrainer')
+		titleWindow = config.getDisplayString('WindowMainTitle')
+		titleQuery  = config.getDisplayString('TabQueryTitle')
+		titleEdit   = config.getDisplayString('TabEditTitle')
+		titleDB     = config.getDisplayString('TabDBTitle')
+
+
+		Gtk.Window.__init__(self, title = titleWindow)
 
 		db       = db
-		vocInOut = VocInOut()
+		vocInOut = VocInOut(db.getColumnMapping())
 
-		vocInOut.setTypList(db.getTypList())
+		vocInOut.setTypeList(db.getTypeList())
 
 		boxOuter = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 		notebook = Gtk.Notebook()
@@ -45,9 +52,9 @@ class WindowMain(Gtk.Window):
 
 		pages = {}
 
-		page1 = notebook.append_page(tabQuery, Gtk.Label('Abfrage'))
-		page2 = notebook.append_page(tabEdit,  Gtk.Label('Vokabeln'))
-		page3 = notebook.append_page(tabDB,    Gtk.Label('DB'))
+		page1 = notebook.append_page(tabQuery, Gtk.Label(titleQuery))
+		page2 = notebook.append_page(tabEdit,  Gtk.Label(titleEdit))
+		page3 = notebook.append_page(tabDB,    Gtk.Label(titleDB))
 
 		pages[page1] = tabQuery
 		pages[page2] = tabEdit

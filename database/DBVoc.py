@@ -2,6 +2,8 @@ import sqlite3
 import datetime
 import random
 
+import config
+
 class DBVoc:
 	"""
 	Wrapper for the vocabulary sqlite-database.
@@ -19,9 +21,51 @@ class DBVoc:
 		self.__cursor     = self.__connection.cursor()
 
 		self.__cursor.execute("""
-			CREATE TABLE IF NOT EXISTS Vocabulary(Deutsch TEXT, Kana TEXT, Kanji TEXT, Typ TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
+			CREATE TABLE IF NOT EXISTS Vocabulary(Lang1 TEXT, Lang2 TEXT, Special TEXT, Type TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
 			""")
+		self.__cursor.execute("""
+			CREATE TABLE IF NOT EXISTS Info(Column TEXT, Title TEXT);
+			""")
+
+		self.__cursor.execute("""
+			SELECT COUNT(*) FROM Info;
+			""")
+
+		amount = self.__cursor.fetchone()
+
+		if amount[0] <= 0:
+			self.__cursor.execute("""
+				INSERT INTO Info VALUES(?, ?),(?, ?), (?, ?), (?, ?), (?, ?);
+				""", (
+					'Lang1',   config.getDisplayString('DBLang1'),
+					'Lang2',   config.getDisplayString('DBLang2'),
+					'Special', config.getDisplayString('DBSpecial'),
+					'Type',    config.getDisplayString('DBType'),
+					'Info',    config.getDisplayString('DBInfo'),
+					))
+
 		self.__connection.commit()
+
+	def getColumnMapping(self):
+		"""
+		Get the mapping of database columns to their names
+
+		@return a dictionary of column ids as strings to their names as strings
+		"""
+
+		self.__cursor.execute("""
+			SELECT * FROM Info;
+			""")
+
+		rows = self.__cursor.fetchall()
+
+		result = {}
+
+		for i_row in rows:
+			result[i_row[0]] = i_row[1]
+
+		return result
+	
 
 	def recreate(self):
 		"""
@@ -31,7 +75,7 @@ class DBVoc:
 		"""
 		self.__cursor.executescript("""
 			DROP TABLE IF EXISTS Vocabulary;
-			CREATE TABLE Vocabulary(Deutsch TEXT, Kana TEXT, Kanji TEXT, Typ TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
+			CREATE TABLE Vocabulary(Lang1 TEXT, Lang2 TEXT, Special TEXT, Type TEXT, Info TEXT, Level INTEGER, Timestamp INTEGER);
 			""")
 		self.__connection.commit()
 
@@ -127,15 +171,15 @@ class DBVoc:
 
 		timestamp = self.__getTimestamp(0)
 
-		deutsch  = data['Deutsch']
-		kana     = data['Kana']
-		kanji    = data['Kanji']
-		typ      = data['Typ']
-		info     = data['Info']
+		lang1     = data['Lang1']
+		lang2     = data['Lang2']
+		special   = data['Special']
+		typ       = data['Type']
+		info      = data['Info']
 
 		self.__cursor.execute("""
 			INSERT INTO Vocabulary VALUES(?, ?, ?, ?, ?, 0, ?);
-			""", (deutsch, kana, kanji, typ, info, timestamp))
+			""", (lang1, lang2, special, typ, info, timestamp))
 
 		if commit:
 			self.__connection.commit()
@@ -150,12 +194,12 @@ class DBVoc:
 
 		timestamp = self.__getTimestamp(level)
 
-		deutsch   = data['Deutsch']
-		kana      = data['Kana']
+		lang1     = data['Lang1']
+		lang2     = data['Lang2']
 
 		self.__cursor.execute("""
-			UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
-			""", (level, timestamp, deutsch, kana))
+			UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Lang1=? AND Lang2=?;
+			""", (level, timestamp, lang1, lang2))
 		self.__connection.commit()
 	
 	def modifyVoc(self, oldData, newData):
@@ -168,19 +212,19 @@ class DBVoc:
 
 		timestamp   = self.__getTimestamp(0)
 
-		deutsch     = oldData['Deutsch']
-		kana        = oldData['Kana']
+		lang1       = oldData['Lang1']
+		lang2       = oldData['Lang2']
 
-		deutsch_new = newData['Deutsch']
-		kana_new    = newData['Kana']
-		kanji_new   = newData['Kanji']
-		typ_new     = newData['Typ']
+		lang1_new   = newData['Lang1']
+		lang2_new   = newData['Lang2']
+		special_new = newData['Special']
+		typ_new     = newData['Type']
 		info_new    = newData['Info']
 
 
 		self.__cursor.execute("""
-			UPDATE Vocabulary SET Deutsch=?, Kana=?, Kanji=?, Typ=?, Info=?, Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
-			""", (deutsch_new, kana_new, kanji_new, typ_new, info_new, 0, timestamp, deutsch, kana))
+			UPDATE Vocabulary SET Lang1=?, Lang2=?, Special=?, Type=?, Info=?, Level=?,Timestamp=? WHERE Lang1=? AND Lang2=?;
+			""", (lang1_new, lang2_new, special_new, typ_new, info_new, 0, timestamp, lang1, lang2))
 		self.__connection.commit()
 
 	def deleteVoc(self, data):
@@ -190,12 +234,12 @@ class DBVoc:
 		@param data vocabulary data to delete
 		"""
 
-		deutsch = data['Deutsch']
-		kana    = data['Kana']
+		lang1 = data['Lang1']
+		lang2 = data['Lang2']
 
 		self.__cursor.execute("""
-			DELETE FROM Vocabulary WHERE Deutsch=? AND Kana=?;
-			""", (deutsch, kana))
+			DELETE FROM Vocabulary WHERE Lang1=? AND Lang2=?;
+			""", (lang1, lang2))
 		self.__connection.commit()
 
 	def getNext(self):
@@ -214,10 +258,10 @@ class DBVoc:
 		result = {}
 
 		if row:
-			result['Deutsch'] = row[0]
-			result['Kana']    = row[1]
-			result['Kanji']   = row[2]
-			result['Typ']     = row[3]
+			result['Lang1']   = row[0]
+			result['Lang2']   = row[1]
+			result['Special'] = row[2]
+			result['Type']    = row[3]
 			result['Info']    = row[4]
 			result['Level']   = row[5]
 
@@ -237,11 +281,11 @@ class DBVoc:
 		if rows:
 			for row in rows:
 				timestamp = self.__getTimestamp(0)
-				deutsch   = row[0]
-				kana      = row[1]
+				lang1     = row[0]
+				lang2     = row[1]
 				self.__cursor.execute("""
-					UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Deutsch=? AND Kana=?;
-					""", (0, timestamp, deutsch, kana))
+					UPDATE Vocabulary SET Level=?,Timestamp=? WHERE Lang1=? AND Lang2=?;
+					""", (0, timestamp, lang1, lang2))
 
 		self.__connection.commit()
 
@@ -250,18 +294,18 @@ class DBVoc:
 		Check, if vocabulary is already in the database.
 
 		Checks, whether there is a row in the database, where
-		'Deutsch' and 'Kana' have the same value as the given data
+		'Lang1' and 'Lang2' have the same value as the given data
 
 		@param data the vocabulary data to check for
 		@return True if the database contains data equal to the given data
 		"""
 
-		deutsch = data['Deutsch']
-		kana    = data['Kana']
+		lang1 = data['Lang1']
+		lang2 = data['Lang2']
 
 		self.__cursor.execute("""
-			SELECT * FROM Vocabulary WHERE Deutsch=? AND Kana=?;
-			""", (deutsch, kana))
+			SELECT * FROM Vocabulary WHERE Lang1=? AND Lang2=?;
+			""", (lang1, lang2))
 
 		row = self.__cursor.fetchall()
 
@@ -291,10 +335,10 @@ class DBVoc:
 				for i_row in rows:
 					entry = {}
 
-					entry['Deutsch'] = i_row[0]
-					entry['Kana']    = i_row[1]
-					entry['Kanji']   = i_row[2]
-					entry['Typ']     = i_row[3]
+					entry['Lang1']   = i_row[0]
+					entry['Lang2']   = i_row[1]
+					entry['Special'] = i_row[2]
+					entry['Type']    = i_row[3]
 					entry['Info']    = i_row[4]
 					entry['Level']   = i_row[5]
 
@@ -302,17 +346,17 @@ class DBVoc:
 
 		return result
 
-	def getTypList(self):
+	def getTypeList(self):
 		"""
-		Returns a list of all different 'Typ'-values of the database.
+		Returns a list of all different 'Type'-values of the database.
 
-		@return all 'Typ'-values as array
+		@return all 'Type'-values as array
 		"""
 
 		result = []
 
 		self.__cursor.execute("""
-			SELECT Typ FROM Vocabulary GROUP BY Typ;
+			SELECT Type FROM Vocabulary GROUP BY Type;
 			""")
 
 		rows = self.__cursor.fetchall()
@@ -337,7 +381,7 @@ class DBVoc:
 		outFile = open(filename, 'w')
 
 		self.__cursor.execute("""
-			SELECT Deutsch,Kana,Kanji,Typ,Info FROM Vocabulary;
+			SELECT Lang1,Lang2,Special,Type,Info FROM Vocabulary;
 			""")
 
 		rows = self.__cursor.fetchall()
@@ -356,7 +400,7 @@ class DBVoc:
 		Import from a given ';'-separatedd csv-file to the database.
 
 		Patterns that are substituted during export are resubstituted.
-		Existing vocabulary with equal values in 'Deutsch' and 'Kana'
+		Existing vocabulary with equal values in 'Lang1' and 'Lang2'
 		is not replaced.
 
 		@param filename the name  of the file to import from
@@ -372,10 +416,10 @@ class DBVoc:
 			
 			data = {}
 
-			data['Deutsch'] = self.__importString(items[0])
-			data['Kana']    = self.__importString(items[1])
-			data['Kanji']   = self.__importString(items[2])
-			data['Typ']     = self.__importString(items[3])
+			data['Lang1']   = self.__importString(items[0])
+			data['Lang2']   = self.__importString(items[1])
+			data['Special'] = self.__importString(items[2])
+			data['Type']    = self.__importString(items[3])
 			data['Info']    = self.__importString(items[4])
 
 			if not self.hasVoc(data):

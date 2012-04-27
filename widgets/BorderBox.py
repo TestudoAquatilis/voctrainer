@@ -2,6 +2,8 @@
 
 from gi.repository import Gtk
 
+import config
+
 class BorderBox(Gtk.Box):
 	"""
 	A box containing control widgets.
@@ -19,15 +21,17 @@ class BorderBox(Gtk.Box):
 		self.__stateDependant  = []
 		self.__stateAssignment = {}
 	
-	def addButton(self, caption, handler, states=None, toolTip=None):
+	def addButton(self, buttonId, handler, states=None):
 		"""
 		Add a button to the BorderBox.
 
-		@param caption caption of the button to add
+		@param buttonId id of the button string and tooltip
 		@param handler Gtk-handler to call when button is clicked
 		@param states an array of statenames, the button is sensitive in or None if button is always sensitive
-		@param toolTip tool tip for the newly created button
 		"""
+
+		caption = config.getDisplayString(buttonId)
+		toolTip = config.getTooltipString(buttonId)
 
 		button = Gtk.Button(caption, use_underline=True)
 

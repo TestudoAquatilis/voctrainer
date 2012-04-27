@@ -14,10 +14,10 @@ class VocInOut(Gtk.Table):
 
 	All data dictionaries are of type:
 	@code {
-	'Deutsch': <value>,
-	'Kana':    <value>,
-	'Kanji':   <value>,
-	'Typ':     <value>,
+	'Lang1': <value>,
+	'Lang2':    <value>,
+	'Special':   <value>,
+	'Type':     <value>,
 	'Info':    <value>}@endcode
 	"""
 
@@ -172,71 +172,71 @@ class VocInOut(Gtk.Table):
 			self.__textView.set_editable(editability)
 			self.__textView.set_cursor_visible(editability)
 
-	def __init__(self):
+	def __init__(self, dbMapping):
 		"""
 		Constructor.
 		"""
 
 		Gtk.Table.__init__(self, 2, 5, False)
 
-		fontKanji  = config.getFont('Kanji')
-		fontMedium = config.getFont('Medium')
+		fontSpecial = config.getFont(dbMapping['Special'])
+		fontMedium  = config.getFont('Medium')
 
-		entryDeutsch = Gtk.Entry()
-		entryKana    = Gtk.Entry()
-		entryKanji   = Gtk.Entry()
-		entryTyp     = Gtk.ComboBoxText.new_with_entry()
+		entryLang1   = Gtk.Entry()
+		entryLang2   = Gtk.Entry()
+		entrySpecial = Gtk.Entry()
+		entryType    = Gtk.ComboBoxText.new_with_entry()
 		entryInfo    = Gtk.TextView()
 		
-		entryDeutsch.modify_font(fontMedium)
-		entryKana.modify_font(fontMedium)
-		entryKanji.modify_font(fontKanji)
-		#entryTyp.modify_font(fontKanji)
+		entryLang1.modify_font(fontMedium)
+		entryLang2.modify_font(fontMedium)
+		entrySpecial.modify_font(fontSpecial)
+		#entryType.modify_font(fontSpecial)
 		entryInfo.modify_font(fontMedium)
 
-		labelDeutsch = Gtk.Label('Deutsch:')
-		labelKana    = Gtk.Label('Kana:')
-		labelKanji   = Gtk.Label('Kanji:')
-		labelTyp     = Gtk.Label('Typ:')
-		labelInfo    = Gtk.Label('Info:')
+		labelLang1   = Gtk.Label(dbMapping['Lang1']+':')
+		labelLang2   = Gtk.Label(dbMapping['Lang2']+':')
+		labelSpecial = Gtk.Label(dbMapping['Special']+':')
+		labelType    = Gtk.Label(dbMapping['Type']+':')
+		labelInfo    = Gtk.Label(dbMapping['Info']+':')
 
 		labelXOpt = 0
 		labelYOpt = 0
 
-		self.attach(labelDeutsch, 0, 1, 0, 1, labelXOpt, labelYOpt)
-		self.attach(labelKana,    0, 1, 1, 2, labelXOpt, labelYOpt)
-		self.attach(labelKanji,   0, 1, 2, 3, labelXOpt, labelYOpt)
-		self.attach(labelTyp,     0, 1, 3, 4, labelXOpt, labelYOpt)
+		self.attach(labelLang1,   0, 1, 0, 1, labelXOpt, labelYOpt)
+		self.attach(labelLang2,   0, 1, 1, 2, labelXOpt, labelYOpt)
+		self.attach(labelSpecial, 0, 1, 2, 3, labelXOpt, labelYOpt)
+		self.attach(labelType,    0, 1, 3, 4, labelXOpt, labelYOpt)
 		self.attach(labelInfo,    0, 1, 4, 5, labelXOpt, labelYOpt)
 
 		entryXOpt    = Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL
 		entryYOpt    = Gtk.AttachOptions.FILL
 		entryYOptExp = Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL
 
-		self.attach(entryDeutsch, 1, 2, 0, 1, entryXOpt, entryYOpt)
-		self.attach(entryKana,    1, 2, 1, 2, entryXOpt, entryYOpt)
-		self.attach(entryKanji,   1, 2, 2, 3, entryXOpt, entryYOpt)
-		self.attach(entryTyp,     1, 2, 3, 4, entryXOpt, entryYOpt)
+		self.attach(entryLang1,   1, 2, 0, 1, entryXOpt, entryYOpt)
+		self.attach(entryLang2,   1, 2, 1, 2, entryXOpt, entryYOpt)
+		self.attach(entrySpecial, 1, 2, 2, 3, entryXOpt, entryYOpt)
+		self.attach(entryType,    1, 2, 3, 4, entryXOpt, entryYOpt)
 		self.attach(entryInfo,    1, 2, 4, 5, entryXOpt, entryYOptExp)
 
 		entries = {}
-		entries['Deutsch'] = self.__entryInOut(entryDeutsch)
-		entries['Kana']    = self.__entryInOut(entryKana)
-		entries['Kanji']   = self.__entryInOut(entryKanji)
-		entries['Typ']     = self.__comboBoxEntryInOut(entryTyp)
+		entries['Lang1']   = self.__entryInOut(entryLang1)
+		entries['Lang2']   = self.__entryInOut(entryLang2)
+		entries['Special'] = self.__entryInOut(entrySpecial)
+		entries['Type']    = self.__comboBoxEntryInOut(entryType)
 		entries['Info']    = self.__textViewInOut(entryInfo)
 
 		self.__entries = entries
-		self.__cbxTyp  = entryTyp
+		self.__cbxType = entryType
 
-	def setTypList(self, typList):
+	def setTypeList(self, typList):
 		"""
-		Sets the 'Typ'-values to select from
+		Sets the 'Type'-values to select from
 
-		@param typList array of 'Typ'-values as strings
+		@param typList array of 'Type'-values as strings
 		"""
 
-		cbx   = self.__cbxTyp
+		cbx   = self.__cbxType
 		model = cbx.get_model()
 
 		model.clear()

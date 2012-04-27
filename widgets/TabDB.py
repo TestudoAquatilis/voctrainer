@@ -3,6 +3,7 @@
 from gi.repository import Gtk
 
 from .BorderBox import *
+import config
 
 class TabDB(BorderBox):
 	"""
@@ -13,9 +14,9 @@ class TabDB(BorderBox):
 		self.__db.resetLevel()
 	
 	def __handlerExportDB(self, widget, data=None):
-		dialog  = Gtk.FileChooserDialog('Exportiere DB in Datei', None, Gtk.FileChooserAction.SAVE, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+		dialog  = Gtk.FileChooserDialog(config.getDisplayString('TDBFCExport'), None, Gtk.FileChooserAction.SAVE, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
 		ffilter = Gtk.FileFilter()
-		ffilter.set_name('CSV-Datei')
+		ffilter.set_name(config.getDisplayString('TDBFFCSV'))
 		ffilter.add_pattern('*.csv')
 		dialog.set_filter(ffilter)
 		dialog.set_filename('vocabDB.csv')
@@ -32,9 +33,9 @@ class TabDB(BorderBox):
 		self.__db.exportToFile(filename)
 	
 	def __handlerImportDB(self, widget, data=None):
-		dialog  = Gtk.FileChooserDialog('Importiere DB aus Datei', None, Gtk.FileChooserAction.OPEN, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+		dialog  = Gtk.FileChooserDialog(config.getDisplayString('TDBFCImport'), None, Gtk.FileChooserAction.OPEN, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 		ffilter = Gtk.FileFilter()
-		ffilter.set_name('CSV-Datei')
+		ffilter.set_name(config.getDisplayString('TDBFFCSV'))
 		ffilter.add_pattern('*.csv')
 		dialog.set_filter(ffilter)
 		dialog.set_filename('vocabDB.csv')
@@ -49,7 +50,7 @@ class TabDB(BorderBox):
 		dialog.destroy()
 
 		self.__db.importFromFile(filename)
-		self.__inOut.setTypList(self.__db.getTypList())
+		self.__inOut.setTypeList(self.__db.getTypeList())
 
 	def __init__(self, db, inOut):
 		"""
@@ -64,10 +65,10 @@ class TabDB(BorderBox):
 		self.__db    = db
 		self.__inOut = inOut
 
-		self.addButton('Fortschritt zurücksetzen', self.__handlerResetLevel)
+		self.addButton('TDBReset',  self.__handlerResetLevel)
 		self.addSeparator()
-		self.addButton('Datenbank exportieren',    self.__handlerExportDB)
-		self.addButton('Datenbank importieren',    self.__handlerImportDB)
+		self.addButton('TDBExport', self.__handlerExportDB)
+		self.addButton('TDBImport', self.__handlerImportDB)
 
 	def setActive(self):
 		"""

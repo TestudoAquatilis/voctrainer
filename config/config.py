@@ -1,3 +1,5 @@
+#coding=utf8
+
 from gi.repository import Pango
 
 __fonts = {
@@ -7,6 +9,45 @@ __fonts = {
 
 __filenames = {
 		'Database': 'vocabulary.db'
+	}
+
+__displayStrings = {
+		# Database
+		'DBLang1'  : 'Deutsch',
+		'DBLang2'  : 'Kanabla',
+		'DBSpecial': 'Kanji',
+		'DBType'   : 'Typ',
+		'DBInfo'   : 'Info',
+		# WindowMain
+		'WindowMainTitle': 'Vokabeltrainer',
+		'TabQueryTitle'  : 'Abfrage',
+		'TabEditTitle'   : 'Vokablen',
+		'TabDBTitle'     : 'DB',
+		# TabQuery
+		'TQueryNext'     : 'Nächste',
+		'TQuerySolve'    : '_Lösen',
+		'TQueryKnown'    : '_Gewusst',
+		'TQueryNotKnown' : '_Nicht Gewusst',
+		'TQueryModify'   : 'Vokabel Ändern',
+		'TQueryDelete'   : 'Vokabel Löschen',
+		# TabEdit
+		'TEditErrorAlreadyExists' : 'Vokabel existiert bereits!',
+		'TEditClear'  : 'Eingabefelder leeren',
+		'TEditSearch' : '_Suchen',
+		'TEditInsert' : 'Vokable _Einfügen',
+		'TEditModify' : 'Vokabel Ändern',
+		'TEditDelete' : 'Vokabel Löschen',
+		# TabDB
+		'TDBFCExport' : 'Exportiere DB in Datei',
+		'TDBFCImport' : 'Importiere DB aus Datei',
+		'TDBFFCSV'    : 'CSV-Datei',
+		'TDBReset'  : 'Fortschritt zurücksetzen',
+		'TDBExport' : 'Datenbank exportieren',
+		'TDBImport' : 'Datenbank importieren',
+	}
+
+__tooltipStrings = {
+
 	}
 
 def getFont(id):
@@ -38,3 +79,34 @@ def getFilename(id):
 		result = __filenames[id]
 	
 	return result
+
+def getDisplayString(id):
+	"""
+	Get the string to display from the given id.
+
+	@param id the id of the string to display
+	@return the string to display or '' if not found
+	"""
+
+	result = ''
+
+	if id in __displayStrings.keys():
+		result = __displayStrings[id]
+	
+	return result
+
+def getTooltipString(id):
+	"""
+	Get the tooltip string for the given id.
+
+	@param id the id of the tooltip string
+	@return the tooltip string or None if not found
+	"""
+
+	result = None
+
+	if id in __tooltipStrings.keys():
+		result = __tooltipStrings[id]
+	
+	return result
+

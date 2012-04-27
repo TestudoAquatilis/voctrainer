@@ -21,8 +21,8 @@ class TabQuery(BorderBox):
 		if len(self.__nextVoc.keys()) < 5:
 			return
 		data = self.__nextVoc.copy()
-		data['Kana'] = ''
-		data['Kanji'] = ''
+		data['Lang2'] = ''
+		data['Special'] = ''
 		data['Info'] = ''
 		self.__inOut.setData(data)
 		self.__inOut.setState('locked')
@@ -62,10 +62,10 @@ class TabQuery(BorderBox):
 		self.__getNextVoc()
 		self.__query()
 
-	def __handlerUpdate(self, widget, data=None):
+	def __handlerModify(self, widget, data=None):
 		entries = self.__inOut.getData()
 		self.__db.modifyVoc(self.__nextVoc, entries)
-		self.__inOut.setTypList(self.__db.getTypList())
+		self.__inOut.setTypeList(self.__db.getTypeList())
 	
 	def __handlerDelete(self, widget, data=None):
 		self.__db.deleteVoc(self.__nextVoc)
@@ -86,14 +86,14 @@ class TabQuery(BorderBox):
 		self.__inOut = inOut
 		self.__state = 'query'
 
-		self.addButton('Nächste',         self.__handlerNext)
+		self.addButton('TQueryNext',     self.__handlerNext)
 		self.addSeparator()
-		self.addButton('_Lösen',          self.__handlerSolve,    ['query'])
-		self.addButton('_Gewusst',        self.__handlerKnown,    ['solution'])
-		self.addButton('_Nicht gewusst',  self.__handlerNotKnown, ['solution'])
+		self.addButton('TQuerySolve',    self.__handlerSolve,    ['query'])
+		self.addButton('TQueryKnown',    self.__handlerKnown,    ['solution'])
+		self.addButton('TQueryNotKnown', self.__handlerNotKnown, ['solution'])
 		self.addSeparator()
-		self.addButton('Vokabel Ändern',  self.__handlerUpdate,   ['solution'])
-		self.addButton('Vokabel Löschen', self.__handlerDelete,   ['solution'])
+		self.addButton('TQueryModify',   self.__handlerModify,   ['solution'])
+		self.addButton('TQueryDelete',   self.__handlerDelete,   ['solution'])
 
 		self.setState('query')
 
