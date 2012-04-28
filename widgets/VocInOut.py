@@ -70,6 +70,12 @@ class VocInOut(Gtk.Table):
 			"""
 
 			self.__entry.set_editable(editability)
+
+		def setFocus(self):
+			"""
+			Sets the focus to this Widget.
+			"""
+			self.__entry.grab_focus()
 	
 	class __comboBoxEntryInOut:
 		"""
@@ -121,6 +127,12 @@ class VocInOut(Gtk.Table):
 
 			self.__cbxEntry.get_child().set_editable(editability)
 
+		def setFocus(self):
+			"""
+			Sets the focus to this Widget.
+			"""
+			self.__cbxEntry.grab_focus()
+
 	class __textViewInOut:
 		"""
 		Nested class for abstraction from Gtk.TextView.
@@ -171,6 +183,12 @@ class VocInOut(Gtk.Table):
 
 			self.__textView.set_editable(editability)
 			self.__textView.set_cursor_visible(editability)
+
+		def setFocus(self):
+			"""
+			Sets the focus to this Widget.
+			"""
+			self.__textView.grab_focus()
 
 	def __init__(self, dbMapping):
 		"""
@@ -288,6 +306,16 @@ class VocInOut(Gtk.Table):
 
 		for i_val in self.__entries.values():
 			i_val.setSensitive(sensitivity)
+	
+	def setFocus(self, entry):
+		"""
+		Sets the focus to the entry with the given name.
+
+		@param entry the entry name
+		"""
+
+		if entry in self.__entries.keys():
+			self.__entries[entry].setFocus()
 	
 	def setState(self, state):
 		"""

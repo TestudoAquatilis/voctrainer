@@ -11,6 +11,7 @@ class TabEdit(BorderBox):
 
 	def __handlerClear(self, widget, data=None):
 		self.__inOut.clearData()
+		self.__inOut.setFocus('Lang1')
 		self.__setState('new')
 
 	def __handlerInsert(self, widget, data=None):
@@ -27,6 +28,7 @@ class TabEdit(BorderBox):
 
 		self.__db.addVoc(entries)
 		self.__inOut.clearData()
+		self.__inOut.setFocus('Lang1')
 		self.__inOut.setTypeList(self.__db.getTypeList())
 		self.__setState('new')
 	
@@ -133,6 +135,7 @@ class TabEdit(BorderBox):
 			self.__inOut.setData(self.__currentVoc)
 		else:
 			self.__inOut.clearData()
+			self.__inOut.setFocus('Lang1')
 
 	def __setState(self, state):
 		self.__state = state
