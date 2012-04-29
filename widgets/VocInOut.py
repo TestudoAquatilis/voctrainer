@@ -212,20 +212,19 @@ class VocInOut(Gtk.Table):
 		#entryType.modify_font(fontSpecial)
 		entryInfo.modify_font(fontMedium)
 
-		labelLang1   = Gtk.Label(dbMapping['Lang1']+':')
-		labelLang2   = Gtk.Label(dbMapping['Lang2']+':')
-		labelSpecial = Gtk.Label(dbMapping['Special']+':')
-		labelType    = Gtk.Label(dbMapping['Type']+':')
-		labelInfo    = Gtk.Label(dbMapping['Info']+':')
+		listLabels   = ['Lang1', 'Lang2', 'Special', 'Type', 'Info']
 
-		labelXOpt = 0
-		labelYOpt = 0
+		for i in range(0, 5):
+			lCaption = dbMapping[listLabels[i]] + ':'
+			label    = Gtk.Label(lCaption)
 
-		self.attach(labelLang1,   0, 1, 0, 1, labelXOpt, labelYOpt)
-		self.attach(labelLang2,   0, 1, 1, 2, labelXOpt, labelYOpt)
-		self.attach(labelSpecial, 0, 1, 2, 3, labelXOpt, labelYOpt)
-		self.attach(labelType,    0, 1, 3, 4, labelXOpt, labelYOpt)
-		self.attach(labelInfo,    0, 1, 4, 5, labelXOpt, labelYOpt)
+			label.set_justify(Gtk.Justification.LEFT)
+			label.set_alignment(0, 0.5)
+
+			labelXOpt = Gtk.AttachOptions.FILL
+			labelYOpt = Gtk.AttachOptions.FILL
+
+			self.attach(label, 0, 1, i, i+1, labelXOpt, labelYOpt, 4, 0)
 
 		entryXOpt    = Gtk.AttachOptions.EXPAND|Gtk.AttachOptions.FILL
 		entryYOpt    = Gtk.AttachOptions.FILL

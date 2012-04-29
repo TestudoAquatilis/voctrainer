@@ -32,6 +32,19 @@ class TabEdit(BorderBox):
 		self.__inOut.setTypeList(self.__db.getTypeList())
 		self.__setState('new')
 	
+	def __trimResult(self, string):
+		"""
+		Trims string to 10 characters
+
+		@param string the string to trim
+		@return trimmed string
+		"""
+
+		if len(string) > 11:
+			return string[0:10] + '...'
+		else:
+			return string
+
 	def __handlerSearch(self, widget, data=None):
 		searchResults      = self.__db.searchVoc(self.__inOut.getData())
 		self.__searchResults = searchResults
@@ -40,7 +53,8 @@ class TabEdit(BorderBox):
 		comboBox.get_model().clear()
 
 		for i_result in searchResults:
-			text = i_result['Lang1'] + ' - ' + i_result['Lang2']
+			
+			text = self.__trimResult(i_result['Lang1']) + ' - ' + self.__trimResult(i_result['Lang2'])
 			comboBox.append_text(text)
 
 		if len(searchResults) > 0:
