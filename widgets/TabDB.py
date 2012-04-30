@@ -10,7 +10,13 @@ class TabDB(BorderBox):
 	"""
 
 	def __handlerShuffleCurrent(self, widget, data=None):
-		self.__db.shuffleCurrent()
+		amount = self.__db.shuffleCurrent()
+
+		messageText = config.getDisplayString('TDBDiaShuffleInfo') % (amount,)
+		dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, message_format=messageText)
+
+		dialog.run()
+		dialog.destroy()
 
 	def __handlerResetLevel(self, widget, data=None):
 		messageText = config.getDisplayString('TDBDiaResetWarning')
@@ -80,6 +86,7 @@ class TabDB(BorderBox):
 		self.__db    = db
 		self.__inOut = inOut
 
+		self.addButton('TDBShuffle',    self.__handlerShuffleCurrent)
 		self.addButton('TDBReset',      self.__handlerResetLevel)
 		self.addButton('TDBStatistics', self.__handlerStatistics)
 		self.addSeparator()

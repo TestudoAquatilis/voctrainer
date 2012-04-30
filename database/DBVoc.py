@@ -274,6 +274,40 @@ class DBVoc:
 
 		return result
 
+	def shuffleCurrent(self):
+		"""
+		Reshuffles all vocabulary which has a Timestamp before
+		now or a Level of 0.
+
+		@return amount of shuffled vocabulary
+		"""
+
+		timestampNow = self.__getTimestampNow() + 750
+
+		self.__cursor.execute("""
+			SELECT * FROM Vocabulary WHERE Level=0 OR Timestamp<?;
+			""", (timestampNow,))
+
+		rows = self.__cursor.fetchall()
+
+		if not rows:
+			return
+
+		amount = len(rows)
+
+		for i_row in rows:
+			timestamp = self.__getTimestamp(0)
+			lang1     = i_row[0]
+			lang2     = i_row[1]
+
+			self.__cursor.execute("""
+				UPDATE Vocabulary SET Timestamp=? WHERE Lang1=? AND Lang2=?;
+				""", (timestamp, lang1, lang2))
+
+		self.__connection.commit()
+
+		return amount
+
 	def resetLevel(self):
 		"""
 		Reset level and timestamp of all vocabulary.

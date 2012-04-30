@@ -43,6 +43,8 @@ __displayStrings = {
 		'TDBFCImport' : 'Importiere DB aus Datei',
 		'TDBFFCSV'    : 'CSV-Datei',
 		'TDBDiaResetWarning' : 'Der gesamte Lernfortschritt wird damit zurückgesetzt!\nDieser Vorgang ist unwiderruflich! Fortfahren?',
+		'TDBDiaShuffleInfo'  : 'Es wurden insgesamt %d Vokabeln neu gemischt.',
+		'TDBShuffle'     : 'Neu mischen',
 		'TDBReset'       : 'Fortschritt zurücksetzen',
 		'TDBStatistics'  : 'Statistik',
 		'TDBExport'      : 'Datenbank exportieren',
@@ -70,6 +72,7 @@ __tooltipStrings = {
 		'TEditModify'        : 'Übernimmt die Veränderungen in die Datenbank.',
 		'TEditDelete'        : 'Löscht die Vokabel unwiderruflich aus der Datenbank!',
 		# TabDB
+		'TDBShuffle'     : 'Durchmischt alle Vokablen neu,\ndie aktuell abzufragen sind.',
 		'TDBReset'       : 'Setzt jeglichen gespeicherten Lernfortschritt zurück!\nAlle Vokabeln werden wie neu behandelt.\nDieser Schritt ist unwiderruflich!!!',
 		'TDBStatistics'  : 'Zeigt eine Statistik über den Lernfortschritt',
 		'TDBExport'      : 'Exportiert die Datenbank in eine CSV-Datei.',
