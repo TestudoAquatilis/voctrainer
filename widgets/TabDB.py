@@ -88,6 +88,7 @@ class TabDB(BorderBox):
 
 		self.addButton('TDBShuffle',    self.__handlerShuffleCurrent)
 		self.addButton('TDBReset',      self.__handlerResetLevel)
+		self.addSeparator()
 		self.addButton('TDBStatistics', self.__handlerStatistics)
 		self.addSeparator()
 		self.addButton('TDBExport',     self.__handlerExportDB)

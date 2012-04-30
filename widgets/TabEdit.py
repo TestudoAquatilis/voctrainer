@@ -86,6 +86,15 @@ class TabEdit(BorderBox):
 		if not self.__currentVoc:
 			return
 
+		messageText = config.getDisplayString('TEDiaDeleteWarning')
+		dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.WARNING, buttons=Gtk.ButtonsType.YES_NO, message_format=messageText)
+
+		response = dialog.run()
+		dialog.destroy()
+
+		if response != Gtk.ResponseType.YES:
+			return
+
 		self.__db.deleteVoc(self.__currentVoc)
 
 		index = comboBox.get_active()
