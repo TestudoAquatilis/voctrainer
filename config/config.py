@@ -42,9 +42,10 @@ __displayStrings = {
 		'TDBFCExport' : 'Exportiere DB in Datei',
 		'TDBFCImport' : 'Importiere DB aus Datei',
 		'TDBFFCSV'    : 'CSV-Datei',
-		'TDBReset'  : 'Fortschritt zurücksetzen',
-		'TDBExport' : 'Datenbank exportieren',
-		'TDBImport' : 'Datenbank importieren',
+		'TDBReset'       : 'Fortschritt zurücksetzen',
+		'TDBStatistics'  : 'Statistik',
+		'TDBExport'      : 'Datenbank exportieren',
+		'TDBImport'      : 'Datenbank importieren',
 	}
 
 __tooltipStrings = {
@@ -63,9 +64,10 @@ __tooltipStrings = {
 		'TEditModify'        : 'Übernimmt die Veränderungen in die Datenbank.',
 		'TEditDelete'        : 'Löscht die Vokabel unwiderruflich aus der Datenbank!',
 		# TabDB
-		'TDBReset'  : 'Setzt jeglichen gespeicherten Lernfortschritt zurück!\nAlle Vokabeln werden wie neu behandelt.\nDieser Schritt ist unwiderruflich!!!',
-		'TDBExport' : 'Exportiert die Datenbank in eine CSV-Datei.',
-		'TDBImport' : 'Importiert Datenbankeinträge aus einer CSV-Datei',
+		'TDBReset'       : 'Setzt jeglichen gespeicherten Lernfortschritt zurück!\nAlle Vokabeln werden wie neu behandelt.\nDieser Schritt ist unwiderruflich!!!',
+		'TDBStatistics'  : 'Zeigt eine Statistik über den Lernfortschritt',
+		'TDBExport'      : 'Exportiert die Datenbank in eine CSV-Datei.',
+		'TDBImport'      : 'Importiert Datenbankeinträge aus einer CSV-Datei',
 	}
 
 def getFont(id):

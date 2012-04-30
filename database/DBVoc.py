@@ -295,6 +295,27 @@ class DBVoc:
 					""", (0, timestamp, lang1, lang2))
 
 		self.__connection.commit()
+	
+	def getStatistics(self):
+		"""
+		Get a data on learning progress as a dictionary containing
+		levels amount of vocabulary in them
+
+		@return dictionary level to number of vocabulary
+		"""
+
+		self.__cursor.execute("""
+			SELECT Level, Count(*) FROM Vocabulary GROUP BY Level ORDER BY Level;
+			""")
+
+		rows = self.__cursor.fetchall()
+
+		result = {}
+
+		for i_row in rows:
+			result[i_row[0]] = i_row[1]
+
+		return result
 
 	def hasVoc(self, data):
 		"""

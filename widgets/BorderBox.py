@@ -49,7 +49,7 @@ class BorderBox(Gtk.Box):
 		Add a separator to the BorderBox.
 		"""
 
-		separator = Gtk.HSeparator()
+		separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
 		
 		self.pack_start(separator, False, False, 0)
 
