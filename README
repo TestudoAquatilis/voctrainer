@@ -7,6 +7,4 @@ python-gobject, gtk and sqlite.
 
 Any configuration (especially paths, fonts and strings)
 can be modified in config/config.py ...
-The database has to be newly created to make
-changes in the 'DB...'-Strings effective.
 
