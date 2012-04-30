@@ -46,6 +46,13 @@ class DBVoc:
 
 		self.__connection.commit()
 
+	def close(self):
+		"""
+		Closes the database connection.
+		"""
+
+		self.__connection.close()
+
 	def getColumnMapping(self):
 		"""
 		Get the mapping of database columns to their names

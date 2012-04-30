@@ -4,11 +4,12 @@ from gi.repository import Pango
 
 __fonts = {
 		'Medium': '20',
-		'Kanji':  'IPAMincho 40'
+		'Kanji':  'IPAMincho 40',
+		'Kana':   'IPAMincho 20',
 	}
 
 __filenames = {
-		'Database': 'vocabulary.db'
+		'Database': 'vocabulary.db',
 	}
 
 __displayStrings = {
@@ -77,8 +78,16 @@ def getFont(id):
 
 	desc = ''
 
-	if id in __fonts.keys():
-		desc = __fonts[id]
+	if isinstance(id, str):
+		if id in __fonts.keys():
+			desc = __fonts[id]
+	else:
+		for i_id in id:
+			if len(i_id) > 1:
+				if i_id in __fonts.keys():
+					desc = __fonts[i_id]
+					break
+
 	
 	return Pango.FontDescription(desc)
 

@@ -18,6 +18,7 @@ class WindowMain(Gtk.Window):
 
 	def __handlerDestroy(self, widget, data=None):
 		Gtk.main_quit()
+		self.__db.close()
 
 	def __handlerPageChanged(self, widget, page, page_num, data=None):
 		self.__pages[page_num].setActive()
@@ -38,8 +39,9 @@ class WindowMain(Gtk.Window):
 
 		Gtk.Window.__init__(self, title = titleWindow)
 
-		db       = db
-		vocInOut = VocInOut(db.getColumnMapping())
+		db        = db
+		self.__db = db
+		vocInOut  = VocInOut(db.getColumnMapping())
 
 		vocInOut.setTypeList(db.getTypeList())
 

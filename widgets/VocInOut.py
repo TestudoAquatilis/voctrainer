@@ -14,10 +14,10 @@ class VocInOut(Gtk.Table):
 
 	All data dictionaries are of type:
 	@code {
-	'Lang1': <value>,
-	'Lang2':    <value>,
-	'Special':   <value>,
-	'Type':     <value>,
+	'Lang1':   <value>,
+	'Lang2':   <value>,
+	'Special': <value>,
+	'Type':    <value>,
 	'Info':    <value>}@endcode
 	"""
 
@@ -197,7 +197,9 @@ class VocInOut(Gtk.Table):
 
 		Gtk.Table.__init__(self, 2, 5, False)
 
-		fontSpecial = config.getFont(dbMapping['Special'])
+		fontLang1   = config.getFont([dbMapping['Lang1'],   'Medium'])
+		fontLang2   = config.getFont([dbMapping['Lang2'],   'Medium'])
+		fontSpecial = config.getFont([dbMapping['Special'], 'Medium'])
 		fontMedium  = config.getFont('Medium')
 
 		entryLang1   = Gtk.Entry()
@@ -206,8 +208,8 @@ class VocInOut(Gtk.Table):
 		entryType    = Gtk.ComboBoxText.new_with_entry()
 		entryInfo    = Gtk.TextView()
 		
-		entryLang1.modify_font(fontMedium)
-		entryLang2.modify_font(fontMedium)
+		entryLang1.modify_font(fontLang1)
+		entryLang2.modify_font(fontLang2)
 		entrySpecial.modify_font(fontSpecial)
 		#entryType.modify_font(fontSpecial)
 		entryInfo.modify_font(fontMedium)
