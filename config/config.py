@@ -46,6 +46,11 @@ __displayStrings = {
 		'TDBStatistics'  : 'Statistik',
 		'TDBExport'      : 'Datenbank exportieren',
 		'TDBImport'      : 'Datenbank importieren',
+		# DialogStatistics
+		'DiaStTitle' : 'Lernstatistik',
+		'DiaStHeadLevel' : 'Stufe',
+		'DiaStHeadAmount': 'Enthaltene Vokabeln',
+		'DiaStSum'       : 'Summe',
 	}
 
 __tooltipStrings = {

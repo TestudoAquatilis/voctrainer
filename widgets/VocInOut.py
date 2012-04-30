@@ -1,5 +1,3 @@
-#coding=utf8
-
 from gi.repository import Gtk
 
 import config
