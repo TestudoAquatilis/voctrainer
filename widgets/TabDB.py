@@ -9,8 +9,18 @@ class TabDB(BorderBox):
 	Class containing widgets for general database operations.
 	"""
 
+	def __handlerShuffleCurrent(self, widget, data=None):
+		self.__db.shuffleCurrent()
+
 	def __handlerResetLevel(self, widget, data=None):
-		self.__db.resetLevel()
+		messageText = config.getDisplayString('TDBDiaResetWarning')
+		dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.WARNING, buttons=Gtk.ButtonsType.YES_NO, message_format=messageText)
+
+		response = dialog.run()
+		dialog.destroy()
+
+		if response == Gtk.ResponseType.YES:
+			self.__db.resetLevel()
 	
 	def __handlerStatistics(self, widget, data=None):
 		dialog = DialogStatistics(self.__db)

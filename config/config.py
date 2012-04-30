@@ -42,6 +42,7 @@ __displayStrings = {
 		'TDBFCExport' : 'Exportiere DB in Datei',
 		'TDBFCImport' : 'Importiere DB aus Datei',
 		'TDBFFCSV'    : 'CSV-Datei',
+		'TDBDiaResetWarning' : 'Der gesamte Lernfortschritt wird damit zurückgesetzt!\nDieser Vorgang ist unwiderruflich! Fortfahren?',
 		'TDBReset'       : 'Fortschritt zurücksetzen',
 		'TDBStatistics'  : 'Statistik',
 		'TDBExport'      : 'Datenbank exportieren',
