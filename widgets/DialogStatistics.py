@@ -15,13 +15,7 @@ class DialogStatistics(Gtk.Dialog):
 
 		statistics = db.getStatistics()
 
-
-		table = Gtk.Table(2, len(statistics)+1, False)
-
-		vocsum = 0
-		
-		for i_val in statistics.values():
-			vocsum += i_val
+		table = Gtk.Table(3, len(statistics) + 4, False)
 
 		labelLeft  = Gtk.Label(config.getDisplayString('DiaStHeadLevel'))
 		labelRight = Gtk.Label(config.getDisplayString('DiaStHeadAmount'))
@@ -29,10 +23,18 @@ class DialogStatistics(Gtk.Dialog):
 		labelXOpt = Gtk.AttachOptions.FILL
 
 		table.attach(labelLeft,  0, 1, 0, 1, labelXOpt, xpadding=4, ypadding=4)
-		table.attach(labelRight, 1, 2, 0, 1, xpadding=4, ypadding=4)
+		table.attach(labelRight, 2, 3, 0, 1, xpadding=4, ypadding=4)
 
 		separator = Gtk.Separator(orientation = Gtk.Orientation.HORIZONTAL)
-		table.attach(separator, 0, 2, 1, 2)
+		table.attach(separator, 0, 3, 1, 2)
+
+		separator = Gtk.Separator(orientation = Gtk.Orientation.VERTICAL)
+		table.attach(separator, 1, 2, 0, len(statistics) + 4, labelXOpt)
+
+		vocsum = 0
+
+		for i_val in statistics.values():
+			vocsum += i_val
 
 		i = 2
 
@@ -44,12 +46,12 @@ class DialogStatistics(Gtk.Dialog):
 			progressbar.set_fraction(statistics[i_key]/vocsum)
 
 			table.attach(labelLeft,   0, 1, i, i+1, labelXOpt, xpadding=4, ypadding=4)
-			table.attach(progressbar, 1, 2, i, i+1, xpadding=4, ypadding=2)
+			table.attach(progressbar, 2, 3, i, i+1, xpadding=4, ypadding=2)
 
 			i      += 1
 
 		separator = Gtk.Separator(orientation = Gtk.Orientation.HORIZONTAL)
-		table.attach(separator, 0, 2, i, i+1)
+		table.attach(separator, 0, 3, i, i+1)
 
 		i += 1
 
@@ -57,7 +59,7 @@ class DialogStatistics(Gtk.Dialog):
 		labelRight = Gtk.Label(vocsum)
 
 		table.attach(labelLeft,  0, 1, i, i+1, labelXOpt, xpadding=4, ypadding=4)
-		table.attach(labelRight, 1, 2, i, i+1, xpadding=4, ypadding=4)
+		table.attach(labelRight, 2, 3, i, i+1, xpadding=4, ypadding=4)
 
 		table.show_all()
 
