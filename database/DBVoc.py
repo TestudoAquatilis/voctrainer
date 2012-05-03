@@ -34,15 +34,16 @@ class DBVoc:
 		amount = self.__cursor.fetchone()
 
 		if amount[0] <= 0:
-			self.__cursor.execute("""
-				INSERT INTO Info VALUES(?, ?),(?, ?), (?, ?), (?, ?), (?, ?);
-				""", (
-					'Lang1',   config.getDisplayString('DBLang1'),
-					'Lang2',   config.getDisplayString('DBLang2'),
-					'Special', config.getDisplayString('DBSpecial'),
-					'Type',    config.getDisplayString('DBType'),
-					'Info',    config.getDisplayString('DBInfo'),
-					))
+			for (i_column, i_title) in (
+					('Lang1',   config.getDisplayString('DBLang1')),
+					('Lang2',   config.getDisplayString('DBLang2')),
+					('Special', config.getDisplayString('DBSpecial')),
+					('Type',    config.getDisplayString('DBType')),
+					('Info',    config.getDisplayString('DBInfo'))):
+
+				self.__cursor.execute("""
+					INSERT INTO Info VALUES(?, ?);
+					""", (i_column, i_title))
 
 		self.__connection.commit()
 
