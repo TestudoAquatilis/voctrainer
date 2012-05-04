@@ -286,7 +286,7 @@ class DBVoc:
 		timestampNow = self.__getTimestampNow() + 750
 
 		self.__cursor.execute("""
-			SELECT * FROM Vocabulary WHERE Level=0 OR Timestamp<?;
+			SELECT * FROM Vocabulary WHERE Timestamp<?;
 			""", (timestampNow,))
 
 		rows = self.__cursor.fetchall()
@@ -333,8 +333,8 @@ class DBVoc:
 	
 	def getStatistics(self):
 		"""
-		Get a data on learning progress as a dictionary containing
-		levels amount of vocabulary in them
+		Get statistical data on learning progress as a dictionary containing
+		levels and amount of vocabulary in them.
 
 		@return dictionary level to number of vocabulary
 		"""
@@ -351,6 +351,23 @@ class DBVoc:
 			result[i_row[0]] = i_row[1]
 
 		return result
+
+	def getAmountOfCurrentVocab(self):
+		"""
+		Get amount of vocabulary ready to be asked according to timestamp.
+
+		@return amount of currently to be asked vocabulary
+		"""
+		timestampNow = self.__getTimestampNow() + 750
+
+		self.__cursor.execute("""
+			SELECT COUNT(*) FROM Vocabulary WHERE Timestamp<?;
+			""", (timestampNow,))
+
+		row = self.__cursor.fetchone()
+
+		return row[0]
+
 
 	def hasVoc(self, data):
 		"""

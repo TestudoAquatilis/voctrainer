@@ -55,6 +55,7 @@ __displayStrings = {
 		'DiaStHeadLevel' : 'Stufe',
 		'DiaStHeadAmount': 'Enthaltene Vokabeln',
 		'DiaStSum'       : 'Summe',
+		'DiaStCurAmount' : 'Aktuell',
 	}
 
 __tooltipStrings = {
@@ -78,6 +79,8 @@ __tooltipStrings = {
 		'TDBStatistics'  : 'Zeigt eine Statistik über den Lernfortschritt',
 		'TDBExport'      : 'Exportiert die Datenbank in eine CSV-Datei.',
 		'TDBImport'      : 'Importiert Datenbankeinträge aus einer CSV-Datei',
+		# DialogStatistics
+		'DiaStCurAmount' : 'Vokabeln, die zurzeit abgefragt werden müssen.\nAlle anderen Vokabeln müssten erst später abgefragt werden.',
 	}
 
 def getFont(id):

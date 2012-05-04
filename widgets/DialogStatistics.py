@@ -15,7 +15,9 @@ class DialogStatistics(Gtk.Dialog):
 
 		statistics = db.getStatistics()
 
-		table = Gtk.Table(3, len(statistics) + 4, False)
+		currentAmount = db.getAmountOfCurrentVocab()
+
+		table = Gtk.Table(3, len(statistics) + 6, False)
 
 		labelLeft  = Gtk.Label(config.getDisplayString('DiaStHeadLevel'))
 		labelRight = Gtk.Label(config.getDisplayString('DiaStHeadAmount'))
@@ -29,7 +31,7 @@ class DialogStatistics(Gtk.Dialog):
 		table.attach(separator, 0, 3, 1, 2)
 
 		separator = Gtk.Separator(orientation = Gtk.Orientation.VERTICAL)
-		table.attach(separator, 1, 2, 0, len(statistics) + 4, labelXOpt)
+		table.attach(separator, 1, 2, 0, len(statistics) + 6, labelXOpt)
 
 		vocsum = 0
 
@@ -60,6 +62,26 @@ class DialogStatistics(Gtk.Dialog):
 
 		table.attach(labelLeft,  0, 1, i, i+1, labelXOpt, xpadding=4, ypadding=4)
 		table.attach(labelRight, 2, 3, i, i+1, xpadding=4, ypadding=4)
+
+		i += 1
+
+		separator = Gtk.Separator(orientation = Gtk.Orientation.HORIZONTAL)
+		table.attach(separator, 0, 3, i, i+1)
+
+		i += 1
+
+		toolTip = config.getTooltipString('DiaStCurAmount')
+		labelLeft  = Gtk.Label(config.getDisplayString('DiaStCurAmount'))
+		progressbar = Gtk.ProgressBar()
+		progressbar.set_text(str(currentAmount))
+		progressbar.set_show_text(True)
+		progressbar.set_fraction(currentAmount/vocsum)
+		if toolTip:
+			progressbar.set_tooltip_text(toolTip)
+			labelLeft.set_tooltip_text(toolTip)
+
+		table.attach(labelLeft,   0, 1, i, i+1, labelXOpt, xpadding=4, ypadding=4)
+		table.attach(progressbar, 2, 3, i, i+1, xpadding=4, ypadding=2)
 
 		table.show_all()
 
