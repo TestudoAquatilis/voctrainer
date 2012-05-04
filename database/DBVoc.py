@@ -350,6 +350,10 @@ class DBVoc:
 		for i_row in rows:
 			result[i_row[0]] = i_row[1]
 
+		for i_level in range(0, max(result.keys())):
+			if i_level not in result.keys():
+				result[i_level] = 0
+
 		return result
 
 	def getAmountOfCurrentVocab(self):
