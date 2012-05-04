@@ -8,9 +8,19 @@ class TabQuery(BorderBox):
 	"""
 
 	def __getNextVoc(self):
-		oldVoc = self.__nextVoc
+		oldAmount = self.__currentAmount
+		oldVoc    = self.__nextVoc
 
-		self.__nextVoc = self.__db.getNext()
+		self.__nextVoc       = self.__db.getNext()
+		self.__currentAmount = self.__db.getAmountOfCurrentVocab()
+
+		if self.__currentAmount == 0:
+			if oldAmount > 0:
+				messageText = config.getDisplayString('TEDiaAmountZeroInfo')
+				dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO, buttons=Gtk.ButtonsType.OK, message_format=messageText)
+
+				response = dialog.run()
+				dialog.destroy()
 
 		if oldVoc != self.__nextVoc:
 			self.__setState('query')
@@ -104,7 +114,8 @@ class TabQuery(BorderBox):
 
 		self.setState('query')
 
-		self.__nextVoc = db.getNext()
+		self.__nextVoc       = db.getNext()
+		self.__currentAmount = db.getAmountOfCurrentVocab()
 		
 	def setActive(self):
 		"""

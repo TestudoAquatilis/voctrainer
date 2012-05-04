@@ -3,7 +3,7 @@ TODO-List for voctrainer:
 simple:
 - reset:		small time-delta between vocabulary -> not everything at once
 - level->timestamp:	rethink
-- warning if no more vocab to ask
+- statistics:		gapless statistics
 
 future:
 - database and config in home-directory

@@ -38,7 +38,8 @@ __displayStrings = {
 		'TEditInsert' : 'Vokable _Einfügen',
 		'TEditModify' : 'Vokabel Ändern',
 		'TEditDelete' : 'Vokabel Löschen',
-		'TEDiaDeleteWarning' : 'Möchten Sie die Vokabel wirklich löschen?',
+		'TEDiaDeleteWarning'  : 'Möchten Sie die Vokabel wirklich löschen?',
+		'TEDiaAmountZeroInfo' : 'Es müssten zur Zeit keine Vokabeln abgefragt werden.\nSie können natürlich trotzdem Fortfahren.',
 		# TabDB
 		'TDBFCExport' : 'Exportiere DB in Datei',
 		'TDBFCImport' : 'Importiere DB aus Datei',
