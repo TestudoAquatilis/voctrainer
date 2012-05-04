@@ -210,6 +210,24 @@ class DBVoc:
 			""", (level, timestamp, lang1, lang2))
 		self.__connection.commit()
 	
+	def skipVoc(self, data):
+		"""
+		Update timestamp of given vocabulary as if it was
+		a level 0 vocab to move it into future.
+		
+		@param data vocabulary data
+		"""
+
+		timestamp = self.__getTimestamp(0)
+
+		lang1     = data['Lang1']
+		lang2     = data['Lang2']
+
+		self.__cursor.execute("""
+			UPDATE Vocabulary SET Timestamp=? WHERE Lang1=? AND Lang2=?;
+			""", (timestamp, lang1, lang2))
+		self.__connection.commit()
+
 	def modifyVoc(self, oldData, newData):
 		"""
 		Modify the given vocabulary.
